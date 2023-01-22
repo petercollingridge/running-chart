@@ -44,12 +44,24 @@ class SVG_Element:
 
         return child
 
+    def circle(self, x, y, r, **kwargs):
+        kwargs['cx'] = x
+        kwargs['cy'] = y
+        kwargs['r'] = r
+
+        child = SVG_Element('circle', kwargs)
+        self.children.append(child)
+
+        return child
+
     def output(self, nesting=0):
         indent = ' ' * nesting * self.indent
 
         svg_string = indent + '<%s' % (self.type)
 
         for key, value in self.attributes.items():
+            if key == 'classname':
+              key = 'class'
             svg_string += ' %s="%s"' % (key, value)
 
         if self.children is None:
@@ -132,4 +144,4 @@ class SVG_Style_Element(SVG_Element):
 
         style_string += '  </style>\n'
 
-        return 
+        return style_string
