@@ -3,6 +3,7 @@ from collections import defaultdict
 from calendar import month_abbr
 from datetime import date, datetime
 from draw_svg import SVG
+from math import floor
 
 colours = (
     (6, (0, 0, 0)),         # Black
@@ -28,11 +29,46 @@ def _get_colour(x):
             p = (x - t1) / (t2 - t1)
             return [round(c2[n] * p + c1[n] * (1 - p)) for n in range(3)]
 
+
+def _get_stats(arr):
+    return (
+        ('Min', min(arr)),
+        ('Med', sorted(arr)[len(arr) // 2]),
+        ('Max', max(arr)),
+    )
+
+
+def _seconds_to_time(s):
+    minutes = floor(s / 60)
+    seconds = s % 60
+    return f"{minutes}:{seconds:02d}"
+
+
+def _seconds_to_duration(s):
+    hours = floor(s / 3600)
+    minutes = floor((s % 3600) / 60)
+    return f"{hours}hrs {minutes} mins"
+
+
 def read_data(filename):
     run_data = []
     with open(filename, 'r') as f:
         for line in f:
-            run_data.append(line.strip().split('\t'))
+            data = line.strip().split('\t')
+            day = data[0]
+            month = data[1]
+            run_time = data[2].split(':')
+            distance = float(data[3])
+            run_time_seconds = sum(int(t) * 60 ** (2 - i) for i, t in enumerate(run_time))
+            pace = run_time_seconds / float(distance) / 60
+
+            run_data.append({
+                'day': day,
+                'month': month,
+                'distance': distance,
+                'time': run_time_seconds,
+                'pace': pace,
+            })
     return run_data
 
 
@@ -68,9 +104,10 @@ def get_day_positions(year):
 
 
 def draw_calendar(day_positions, size):
-    margin = size * 2
-    width = (day_positions[-1]['x'] + 1) * size + margin * 2
-    height = 7 * size + margin * 2
+    margin_x = size * 2
+    margin_y = size * 3.5
+    width = (day_positions[-1]['x'] + 1) * size + margin_x * 2
+    height = 7 * size + margin_y * 2
     viewbox = f"0 0 {width} {height}"
 
     svg = SVG({ 'viewBox': viewbox })
@@ -83,8 +120,8 @@ def draw_calendar(day_positions, size):
 
     # Write days of the week as y-axis label
     for y, day in enumerate('MTWTFSS'):
-        tx = margin - size / 2
-        ty = (y + 0.5) * size + margin
+        tx = margin_x - size / 2
+        ty = (y + 0.5) * size + margin_y
         label_group.add('text', {'x': tx, 'y': ty}, child=day)
 
     # Collect months to find mean position
@@ -92,8 +129,8 @@ def draw_calendar(day_positions, size):
 
     # Draw a rect per day, coloured by month
     for day in day_positions:
-        x = day['x'] * size + margin
-        y = day['y'] * size + margin
+        x = day['x'] * size + margin_x
+        y = day['y'] * size + margin_y
         classname = f"month-{1 + day['month'] % 2}"
         svg.rect(x, y, size - 1, size - 1, classname=classname)
 
@@ -101,53 +138,131 @@ def draw_calendar(day_positions, size):
             months[day['month']].append(x)
 
     # Write month names as x-axis labels
+    svg.groups = {}
     for month, x_values in months.items():
         mean_x = round(sum(x_values) / len(x_values)) + size / 2
         month_str = month_abbr[month]
-        label_group.add('text', {'x': mean_x, 'y': margin - size / 2}, child=month_str)
+        transform = f"translate({mean_x} {margin_y - size * 0.8})"
+        month_group = label_group.add('g', {'transform': transform })
+        month_group.add('text', {}, child=month_str)
+        svg.groups[month_str] = month_group
 
     return svg
 
 
 def add_runs(svg, run_data, year, size, target_dist=5):
-    margin = size * 2
-    svg.addStyle('circle', {'fill-opacity': 0.6, 'stroke': 'white'})
+    margin_x = size * 2
+    margin_y = size * 3.5
+
+    # Styles
+    svg.addStyle('circle', {'fill-opacity': 0.7, 'stroke': 'white'})
+    svg.addStyle('.count', {'font-size': '16px', 'dominant-baseline': 'middle'})
+    svg.addStyle('.title', {'font-size': '40px', 'dominant-baseline': 'middle', 'fill': '#222'})
+    svg.addStyle('.subtitle', {'font-size': '24px', 'dominant-baseline': 'middle', 'fill': '#777'})
+
+    # Title
+    mid_x = 26.5 * size + margin_x
+    svg.add('text', {'x': mid_x, 'y': 25, 'class': 'title'}, child=year)
+
+    # Subtitle
+    distances = [d['distance'] for d in run_data]
+    total_distance = round(sum(distances))
+    total_time = round(sum(d['time'] for d in run_data))
+    subtitle = f"{len(distances)} runs, {total_distance} km, {_seconds_to_duration(total_time)}"
+    svg.add('text', {'x': mid_x, 'y': 58, 'class': 'subtitle'}, child=subtitle)    
 
     count_group = svg.add('g', {'class': 'count'})
-    svg.addStyle('.count', {'font-size': '16px', 'dominant-baseline': 'middle'})
     day_of_week_count = defaultdict(int)
     week_num_count = defaultdict(int)
+    month_count = defaultdict(int)
 
-    for day, month, run_time, distance in run_data:
-        run_date = datetime.strptime(f"{day} {month} {year}", '%d %b %Y')
+    for data in run_data:
+        run_date = datetime.strptime(f"{data['day']} {data['month']} {year}", '%d %b %Y')
         position = run_date.isocalendar()
         week = position[1]
         day_of_week = position[2]
 
-        run_time_seconds = sum(int(t) * 60 ** (2 - i) for i, t in enumerate(run_time.split(':')))
-        pace = run_time_seconds / float(distance) / 60
-        colour = _get_colour(pace)
-
+        colour = _get_colour(data['pace'])
         fill = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
 
-        x = (week + 0.5) * size + margin
-        y = (day_of_week - 0.5) * size + margin
-        r = float(distance) / target_dist * size / 2
+        x = (week + 0.5) * size + margin_x
+        y = (day_of_week - 0.5) * size + margin_y
+        r = data['distance'] / target_dist * size / 2
         svg.circle(x, y, r, fill=fill)
 
         day_of_week_count[day_of_week] += 1
         week_num_count[week] += 1
+        month_count[data['month']] += 1
 
-    # Write count of run by day of week
-    x = 53.5 * size + margin
+    # Write count of runs by day of week
+    x = 53.5 * size + margin_x
     for day, count in day_of_week_count.items():
-        y = margin + (day - 0.5) * size
+        y = margin_y + (day - 0.5) * size
         count_group.add('text', {'x': x, 'y': y}, child=count)
 
-    y = 7.5 * size + margin
+    # Add total
+    y = margin_y + 7.5 * size
+    count_group.add('text', {'x': x, 'y': y}, child=sum(day_of_week_count.values()))
+
+    # Write count of runs by week
+    y = 7.5 * size + margin_y
     for week_num, count in week_num_count.items():
-        x = margin + (week_num + 0.5) * size
+        x = margin_x + (week_num + 0.5) * size
         count_group.add('text', {'x': x, 'y': y}, child=count)
+
+    # Write count of runs by month
+    for month, count in month_count.items():
+        svg.groups[month].add('text', {'y': size * 0.55, 'class': 'count'}, child=count)
+
+    # Distance key
+    # Shortest, median and longest distances
+    distanceTypes = _get_stats(distances)
+
+    value_y = 10.5 * size + margin_y
+
+    cx = margin_x
+    for x, (name, d) in enumerate(distanceTypes):
+        r = d / target_dist * size / 2
+        dx = max(r, size / 2)
+        cx += dx
+        cy = value_y - r - 16
+        svg.circle(cx, cy, r, fill="rgb(140, 140, 140)")
+        svg.add('text', {'x': cx, 'y': value_y}, child=round(d, 2))
+        svg.add('text', {'x': cx, 'y': value_y + 16}, child=name)
+        cx += dx
+
+    svg.add('text', {'x': (margin_x + cx) / 2, 'y': value_y + 48, 'font-size': '24px'}, child="Distance (km)")
+
+    # Pace key
+    # Fastest, median and slowest distances
+    paces = [d['pace'] for d in run_data]
+    paceTypes = _get_stats(paces)
+    
+    min_seconds = round(paceTypes[0][1] * 60)
+    med_seconds = round(paceTypes[1][1] * 60)
+    max_seconds = round(paceTypes[2][1] * 60)
+
+    cx += margin_x
+    cy = 9 * size + margin_y
+    dx = 3
+
+    svg.add('text', {'x': cx, 'y': value_y}, child=_seconds_to_time(max_seconds))
+    svg.add('text', {'x': cx, 'y': value_y + 16}, child='Max')
+
+    for seconds in range(max_seconds, min_seconds - 1, -1):
+        colour = _get_colour(seconds / 60)
+        fill = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
+        svg.rect(cx, cy, dx + 0.1, size, fill=fill)
+
+        if seconds == med_seconds:
+            svg.add('text', {'x': cx, 'y': value_y}, child=_seconds_to_time(med_seconds))
+            svg.add('text', {'x': cx, 'y': value_y + 16}, child='Med')
+
+        cx += dx
+
+    svg.add('text', {'x': cx, 'y': value_y}, child=_seconds_to_time(min_seconds))
+    svg.add('text', {'x': cx, 'y': value_y + 16}, child='Min')
+    svg.add('text', {'x': cx - dx * (max_seconds - min_seconds) / 2, 'y': value_y + 48, 'font-size': '24px'}, child="Pace (min / km)")
 
 
 if __name__ == '__main__':
