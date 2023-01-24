@@ -105,7 +105,7 @@ def get_day_positions(year):
 
 def draw_calendar(day_positions, size):
     margin_x = size * 2
-    margin_y = size * 3.5
+    margin_y = size * 6
     width = (day_positions[-1]['x'] + 1) * size + margin_x * 2
     height = 7 * size + margin_y * 2
     viewbox = f"0 0 {width} {height}"
@@ -115,6 +115,8 @@ def draw_calendar(day_positions, size):
     svg.addStyle('.month-2', { 'fill': '#ccc' })
     svg.addStyle('text', { 'font-family': 'Arial', 'text-anchor': 'middle' })
     svg.addStyle('.axis-label', { 'font-size': '24px', 'dominant-baseline': 'middle' })
+
+    # svg.rect(0, 0, width, height, fill = '#ddd')
 
     label_group = svg.add('g', {'class': 'axis-label'})
 
@@ -142,7 +144,7 @@ def draw_calendar(day_positions, size):
     for month, x_values in months.items():
         mean_x = round(sum(x_values) / len(x_values)) + size / 2
         month_str = month_abbr[month]
-        transform = f"translate({mean_x} {margin_y - size * 0.8})"
+        transform = f"translate({mean_x} {margin_y - size})"
         month_group = label_group.add('g', {'transform': transform })
         month_group.add('text', {}, child=month_str)
         svg.groups[month_str] = month_group
@@ -152,24 +154,24 @@ def draw_calendar(day_positions, size):
 
 def add_runs(svg, run_data, year, size, target_dist=5):
     margin_x = size * 2
-    margin_y = size * 3.5
+    margin_y = size * 6
 
     # Styles
     svg.addStyle('circle', {'fill-opacity': 0.7, 'stroke': 'white'})
-    svg.addStyle('.count', {'font-size': '16px', 'dominant-baseline': 'middle'})
+    svg.addStyle('.count', {'font-size': '18px', 'dominant-baseline': 'middle'})
     svg.addStyle('.title', {'font-size': '40px', 'dominant-baseline': 'middle', 'fill': '#222'})
     svg.addStyle('.subtitle', {'font-size': '24px', 'dominant-baseline': 'middle', 'fill': '#777'})
 
     # Title
     mid_x = 26.5 * size + margin_x
-    svg.add('text', {'x': mid_x, 'y': 25, 'class': 'title'}, child=year)
+    svg.add('text', {'x': mid_x, 'y': 20 + size / 2, 'class': 'title'}, child=year)
 
     # Subtitle
     distances = [d['distance'] for d in run_data]
     total_distance = round(sum(distances))
     total_time = round(sum(d['time'] for d in run_data))
     subtitle = f"{len(distances)} runs, {total_distance} km, {_seconds_to_duration(total_time)}"
-    svg.add('text', {'x': mid_x, 'y': 58, 'class': 'subtitle'}, child=subtitle)    
+    svg.add('text', {'x': mid_x, 'y': 40 + size, 'class': 'subtitle'}, child=subtitle)    
 
     count_group = svg.add('g', {'class': 'count'})
     day_of_week_count = defaultdict(int)
@@ -212,13 +214,13 @@ def add_runs(svg, run_data, year, size, target_dist=5):
 
     # Write count of runs by month
     for month, count in month_count.items():
-        svg.groups[month].add('text', {'y': size * 0.55, 'class': 'count'}, child=count)
+        svg.groups[month].add('text', {'y': size * 0.7, 'class': 'count'}, child=count)
 
     # Distance key
     # Shortest, median and longest distances
     distanceTypes = _get_stats(distances)
 
-    value_y = 10.5 * size + margin_y
+    value_y = 11 * size + margin_y
 
     cx = margin_x
     for x, (name, d) in enumerate(distanceTypes):
@@ -267,7 +269,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
 
 if __name__ == '__main__':
     year = 2022
-    size = 40
+    size = 32
     filename = os.path.join('data', f"{year}.txt")
     run_data = read_data(filename)
 
