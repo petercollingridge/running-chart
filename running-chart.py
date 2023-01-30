@@ -6,8 +6,8 @@ from draw_svg import SVG
 from math import floor
 
 colours = (
-    (6, (0, 0, 0)),         # Black
-    (5.5, (200, 0, 0)),     # Red
+    (6.25, (0, 0, 0)),      # Black
+    (5.75, (200, 0, 0)),    # Red
     (5, (250, 240, 0)),     # Yellow
     (4.75, (0, 200, 0)),    # Green
     (4.5, (0, 0, 200)),     # Blue
@@ -31,10 +31,11 @@ def _get_colour(x):
 
 
 def _get_stats(arr):
+    filtered_arr = [item for item in arr if item]
     return (
-        ('Min', min(arr)),
-        ('Med', sorted(arr)[len(arr) // 2]),
-        ('Max', max(arr)),
+        ('Min', min(filtered_arr)),
+        ('Med', sorted(filtered_arr)[len(filtered_arr) // 2]),
+        ('Max', max(filtered_arr)),
     )
 
 
@@ -57,10 +58,19 @@ def read_data(filename):
             data = line.strip().split('\t')
             day = data[0]
             month = data[1]
-            run_time = data[2].split(':')
-            distance = float(data[3])
-            run_time_seconds = sum(int(t) * 60 ** (2 - i) for i, t in enumerate(run_time))
-            pace = run_time_seconds / float(distance) / 60
+
+            if len(data) > 2 and data[2]:
+                run_time = data[2].split(':')
+                run_time_seconds = sum(int(t) * 60 ** (2 - i) for i, t in enumerate(run_time))
+            else:
+                run_time_seconds = 0
+
+            if len(data) > 3 and data[3]:
+                distance = float(data[3])
+                pace = run_time_seconds / float(distance) / 60
+            else:
+                distance = 0
+                pace = None
 
             run_data.append({
                 'day': day,
@@ -105,9 +115,9 @@ def get_day_positions(year):
 
 def draw_calendar(day_positions, size):
     margin_x = size * 2
-    margin_y = size * 6
+    margin_y = size * 5
     width = (day_positions[-1]['x'] + 1) * size + margin_x * 2
-    height = 7 * size + margin_y * 2
+    height = 8 * size + margin_y * 2
     viewbox = f"0 0 {width} {height}"
 
     svg = SVG({ 'viewBox': viewbox })
@@ -154,10 +164,11 @@ def draw_calendar(day_positions, size):
 
 def add_runs(svg, run_data, year, size, target_dist=5):
     margin_x = size * 2
-    margin_y = size * 6
+    margin_y = size * 5
 
     # Styles
     svg.addStyle('circle', {'fill-opacity': 0.7, 'stroke': 'white'})
+    svg.addStyle('.cross', {'opacity': 0.7, 'stroke': 'rgb(60, 52, 52)', 'stroke-width': 3, 'stroke-linecap': 'round'})
     svg.addStyle('.count', {'font-size': '18px', 'dominant-baseline': 'middle'})
     svg.addStyle('.title', {'font-size': '40px', 'dominant-baseline': 'middle', 'fill': '#222'})
     svg.addStyle('.subtitle', {'font-size': '24px', 'dominant-baseline': 'middle', 'fill': '#777'})
@@ -181,20 +192,32 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     for data in run_data:
         run_date = datetime.strptime(f"{data['day']} {data['month']} {year}", '%d %b %Y')
         position = run_date.isocalendar()
-        week = position[1]
+
+        # At the beginning of the year the iso week can be in the previous year
+        if position[0] < year:
+            week = 0
+        else:
+            week = position[1]
+
         day_of_week = position[2]
-
-        colour = _get_colour(data['pace'])
-        fill = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
-
         x = (week + 0.5) * size + margin_x
         y = (day_of_week - 0.5) * size + margin_y
-        r = data['distance'] / target_dist * size / 2
-        svg.circle(x, y, r, fill=fill)
 
-        day_of_week_count[day_of_week] += 1
-        week_num_count[week] += 1
-        month_count[data['month']] += 1
+        if data['pace']:
+            colour = _get_colour(data['pace'])
+            fill = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
+
+            r = data['distance'] / target_dist * size / 2
+            svg.circle(x, y, r, fill=fill)
+
+            day_of_week_count[day_of_week] += 1
+            week_num_count[week] += 1
+            month_count[data['month']] += 1
+        else:
+            r = size * 0.25
+            d = f"M{x - r} {y - r}l{r * 2} {r * 2}"
+            d += f"M{x - r} {y + r}l{r * 2} {r * -2}"
+            svg.add('path', {'d': d, 'class': 'cross'})
 
     # Write count of runs by day of week
     x = 53.5 * size + margin_x
@@ -225,7 +248,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     cx = margin_x
     for x, (name, d) in enumerate(distanceTypes):
         r = d / target_dist * size / 2
-        dx = max(r, size / 2)
+        dx = max(r, size / 2) + 5
         cx += dx
         cy = value_y - r - 16
         svg.circle(cx, cy, r, fill="rgb(140, 140, 140)")
@@ -244,31 +267,33 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     med_seconds = round(paceTypes[1][1] * 60)
     max_seconds = round(paceTypes[2][1] * 60)
 
-    cx += margin_x
-    cy = 9 * size + margin_y
-    dx = 3
+    cx = size * 10
+    cy = 9.25 * size + margin_y
+    max_width = size * 6
+    med_drawn = False
 
     svg.add('text', {'x': cx, 'y': value_y}, child=_seconds_to_time(max_seconds))
     svg.add('text', {'x': cx, 'y': value_y + 16}, child='Max')
 
-    for seconds in range(max_seconds, min_seconds - 1, -1):
+    for dx in range(max_width):
+        p = dx / (max_width - 1)
+        seconds = p * min_seconds + (1 - p) * max_seconds
         colour = _get_colour(seconds / 60)
         fill = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
-        svg.rect(cx, cy, dx + 0.1, size, fill=fill)
+        svg.rect(cx + dx, cy, 1.1, size, fill=fill)
 
-        if seconds == med_seconds:
-            svg.add('text', {'x': cx, 'y': value_y}, child=_seconds_to_time(med_seconds))
-            svg.add('text', {'x': cx, 'y': value_y + 16}, child='Med')
+        if not med_drawn and seconds <= med_seconds:
+            med_drawn = True
+            svg.add('text', {'x': cx + dx, 'y': value_y}, child=_seconds_to_time(med_seconds))
+            svg.add('text', {'x': cx + dx, 'y': value_y + 16}, child='Med')
 
-        cx += dx
-
-    svg.add('text', {'x': cx, 'y': value_y}, child=_seconds_to_time(min_seconds))
-    svg.add('text', {'x': cx, 'y': value_y + 16}, child='Min')
+    svg.add('text', {'x': cx + max_width, 'y': value_y}, child=_seconds_to_time(min_seconds))
+    svg.add('text', {'x': cx + max_width, 'y': value_y + 16}, child='Min')
     svg.add('text', {'x': cx - dx * (max_seconds - min_seconds) / 2, 'y': value_y + 48, 'font-size': '24px'}, child="Pace (min / km)")
 
 
 if __name__ == '__main__':
-    year = 2022
+    year = 2023
     size = 32
     filename = os.path.join('data', f"{year}.txt")
     run_data = read_data(filename)
