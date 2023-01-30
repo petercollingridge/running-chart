@@ -206,18 +206,17 @@ def add_runs(svg, run_data, year, size, target_dist=5):
         if data['pace']:
             colour = _get_colour(data['pace'])
             fill = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
-
             r = data['distance'] / target_dist * size / 2
             svg.circle(x, y, r, fill=fill)
-
-            day_of_week_count[day_of_week] += 1
-            week_num_count[week] += 1
-            month_count[data['month']] += 1
         else:
-            r = size * 0.25
+            r = size * 0.2
             d = f"M{x - r} {y - r}l{r * 2} {r * 2}"
             d += f"M{x - r} {y + r}l{r * 2} {r * -2}"
             svg.add('path', {'d': d, 'class': 'cross'})
+
+        day_of_week_count[day_of_week] += 1
+        week_num_count[week] += 1
+        month_count[data['month']] += 1
 
     # Write count of runs by day of week
     x = 53.5 * size + margin_x
@@ -289,11 +288,11 @@ def add_runs(svg, run_data, year, size, target_dist=5):
 
     svg.add('text', {'x': cx + max_width, 'y': value_y}, child=_seconds_to_time(min_seconds))
     svg.add('text', {'x': cx + max_width, 'y': value_y + 16}, child='Min')
-    svg.add('text', {'x': cx - dx * (max_seconds - min_seconds) / 2, 'y': value_y + 48, 'font-size': '24px'}, child="Pace (min / km)")
+    svg.add('text', {'x': cx + max_width / 2, 'y': value_y + 48, 'font-size': '24px'}, child="Pace (min / km)")
 
 
 if __name__ == '__main__':
-    year = 2023
+    year = 2021
     size = 32
     filename = os.path.join('data', f"{year}.txt")
     run_data = read_data(filename)

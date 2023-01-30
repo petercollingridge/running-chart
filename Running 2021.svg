@@ -51,13 +51,15 @@
         <text x="48.0" y="368.0">S</text>
         <g transform="translate(160.0 128)">
             <text>Jan</text>
+            <text y="22.4" class="count">1</text>
         </g>
         <g transform="translate(288.0 128)">
             <text>Feb</text>
+            <text y="22.4" class="count">3</text>
         </g>
         <g transform="translate(432.0 128)">
             <text>Mar</text>
-            <text y="22.4" class="count">3</text>
+            <text y="22.4" class="count">5</text>
         </g>
         <g transform="translate(576.0 128)">
             <text>Apr</text>
@@ -88,6 +90,7 @@
         </g>
         <g transform="translate(1552.0 128)">
             <text>Nov</text>
+            <text y="22.4" class="count">1</text>
         </g>
         <g transform="translate(1696.0 128)">
             <text>Dec</text>
@@ -461,14 +464,20 @@
     <text x="912.0" y="36.0" class="title">2021</text>
     <text x="912.0" y="72" class="subtitle">61 runs, 287 km, 27hrs 48 mins</text>
     <g class="count">
-        <text x="1776.0" y="336.0">12</text>
+        <text x="1776.0" y="368.0">10</text>
+        <text x="1776.0" y="336.0">16</text>
         <text x="1776.0" y="208.0">9</text>
         <text x="1776.0" y="272.0">6</text>
         <text x="1776.0" y="240.0">9</text>
-        <text x="1776.0" y="368.0">7</text>
         <text x="1776.0" y="304.0">6</text>
         <text x="1776.0" y="176.0">5</text>
-        <text x="1776.0" y="400.0">54</text>
+        <text x="1776.0" y="400.0">61</text>
+        <text x="112.0" y="400.0">1</text>
+        <text x="272.0" y="400.0">1</text>
+        <text x="304.0" y="400.0">1</text>
+        <text x="336.0" y="400.0">1</text>
+        <text x="368.0" y="400.0">1</text>
+        <text x="400.0" y="400.0">1</text>
         <text x="432.0" y="400.0">1</text>
         <text x="464.0" y="400.0">2</text>
         <text x="496.0" y="400.0">1</text>
@@ -494,13 +503,14 @@
         <text x="1360.0" y="400.0">1</text>
         <text x="1392.0" y="400.0">1</text>
         <text x="1424.0" y="400.0">1</text>
+        <text x="1552.0" y="400.0">1</text>
     </g>
-    <path d="M104.0 360.0l16.0 16.0M104.0 376.0l16.0 -16.0" class="cross"></path>
-    <path d="M264.0 328.0l16.0 16.0M264.0 344.0l16.0 -16.0" class="cross"></path>
-    <path d="M296.0 328.0l16.0 16.0M296.0 344.0l16.0 -16.0" class="cross"></path>
-    <path d="M328.0 328.0l16.0 16.0M328.0 344.0l16.0 -16.0" class="cross"></path>
-    <path d="M360.0 360.0l16.0 16.0M360.0 376.0l16.0 -16.0" class="cross"></path>
-    <path d="M392.0 328.0l16.0 16.0M392.0 344.0l16.0 -16.0" class="cross"></path>
+    <path d="M105.6 361.6l12.8 12.8M105.6 374.4l12.8 -12.8" class="cross"></path>
+    <path d="M265.6 329.6l12.8 12.8M265.6 342.4l12.8 -12.8" class="cross"></path>
+    <path d="M297.6 329.6l12.8 12.8M297.6 342.4l12.8 -12.8" class="cross"></path>
+    <path d="M329.6 329.6l12.8 12.8M329.6 342.4l12.8 -12.8" class="cross"></path>
+    <path d="M361.6 361.6l12.8 12.8M361.6 374.4l12.8 -12.8" class="cross"></path>
+    <path d="M393.6 329.6l12.8 12.8M393.6 342.4l12.8 -12.8" class="cross"></path>
     <circle fill="rgb(4, 0, 0)" cx="432.0" cy="336.0" r="15.488"></circle>
     <circle fill="rgb(205, 24, 0)" cx="464.0" cy="208.0" r="14.112"></circle>
     <circle fill="rgb(142, 0, 0)" cx="464.0" cy="336.0" r="15.392"></circle>
@@ -555,7 +565,7 @@
     <circle fill="rgb(22, 0, 0)" cx="1360.0" cy="240.0" r="9.248000000000001"></circle>
     <circle fill="rgb(220, 96, 0)" cx="1392.0" cy="368.0" r="9.952"></circle>
     <circle fill="rgb(230, 144, 0)" cx="1424.0" cy="368.0" r="15.680000000000001"></circle>
-    <path d="M1544.0 360.0l16.0 16.0M1544.0 376.0l16.0 -16.0" class="cross"></path>
+    <path d="M1545.6 361.6l12.8 12.8M1545.6 374.4l12.8 -12.8" class="cross"></path>
     <circle fill="rgb(140, 140, 140)" cx="85.0" cy="486.752" r="9.248000000000001"></circle>
     <text x="85.0" y="512">2.89</text>
     <text x="85.0" y="528">Min</text>
@@ -764,5 +774,5 @@
     <rect fill="rgb(17, 203, 0)" x="511" y="456.0" width="1.1" height="32"></rect>
     <text x="512" y="512">4:46</text>
     <text x="512" y="528">Min</text>
-    <text x="-8084.0" y="560" font-size="24px">Pace (min / km)</text>
+    <text x="416.0" y="560" font-size="24px">Pace (min / km)</text>
 </svg>
