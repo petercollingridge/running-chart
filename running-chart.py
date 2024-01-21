@@ -55,7 +55,7 @@ def read_data(filename):
     run_data = []
     with open(filename, 'r') as f:
         for line in f:
-            data = line.strip().split('\t')
+            data = line.strip().split()
             day = data[0]
             month = data[1]
 
@@ -292,7 +292,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
 
 
 if __name__ == '__main__':
-    year = 2021
+    year = 2024
     size = 32
     filename = os.path.join('data', f"{year}.txt")
     run_data = read_data(filename)
