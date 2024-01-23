@@ -189,6 +189,10 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     week_num_count = defaultdict(int)
     month_count = defaultdict(int)
 
+    # Find number of first week, which will be 52 unless the first day is a Monday
+    first_week = datetime.strptime(f'1 Jan {year}', '%d %b %Y').isocalendar()[1]
+    offset = 1 if first_week == 1 else 0
+
     for data in run_data:
         run_date = datetime.strptime(f"{data['day']} {data['month']} {year}", '%d %b %Y')
         position = run_date.isocalendar()
@@ -197,7 +201,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
         if position[0] < year:
             week = 0
         else:
-            week = position[1]
+            week = position[1] - offset
 
         day_of_week = position[2]
         x = (week + 0.5) * size + margin_x
