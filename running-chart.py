@@ -179,9 +179,14 @@ def add_runs(svg, run_data, year, size, target_dist=5):
 
     # Subtitle
     distances = [d['distance'] for d in run_data]
-    total_distance = round(sum(distances))
-    total_time = round(sum(d['time'] for d in run_data))
-    subtitle = f"{len(distances)} runs, {total_distance} km, {_seconds_to_duration(total_time)}"
+    total_distance = sum(distances)
+    total_time = sum(d['time'] for d in run_data)
+    mean_pace = round(total_time / total_distance)
+
+    subtitle = f"{len(distances)} runs;"
+    subtitle += f" {round(total_distance)} km;"
+    subtitle += f" {_seconds_to_duration(total_time)};"
+    subtitle += f" {_seconds_to_time(mean_pace)}"
     svg.add('text', {'x': mid_x, 'y': 40 + size, 'class': 'subtitle'}, child=subtitle)    
 
     count_group = svg.add('g', {'class': 'count'})
@@ -193,6 +198,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     first_week = datetime.strptime(f'1 Jan {year}', '%d %b %Y').isocalendar()[1]
     offset = 1 if first_week == 1 else 0
 
+    # Draw circles on chart
     for data in run_data:
         run_date = datetime.strptime(f"{data['day']} {data['month']} {year}", '%d %b %Y')
         position = run_date.isocalendar()
@@ -296,7 +302,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
 
 
 if __name__ == '__main__':
-    year = 2024
+    year = 2021
     size = 32
     filename = os.path.join('data', f"{year}.txt")
     run_data = read_data(filename)

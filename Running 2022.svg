@@ -463,7 +463,7 @@
     <rect class="month-1" x="1728" y="288" width="31" height="31"></rect>
     <rect class="month-1" x="1728" y="320" width="31" height="31"></rect>
     <text x="912.0" y="36.0" class="title">2022</text>
-    <text x="912.0" y="72" class="subtitle">103 runs, 568 km, 47hrs 36 mins</text>
+    <text x="912.0" y="72" class="subtitle">103 runs; 568 km; 47hrs 36 mins; 5:02</text>
     <g class="count">
         <text x="1776.0" y="368.0">18</text>
         <text x="1776.0" y="336.0">10</text>
@@ -830,5 +830,5 @@
     <rect fill="rgb(0, 27, 173)" x="511" y="456.0" width="1.1" height="32"></rect>
     <text x="512" y="512">4:32</text>
     <text x="512" y="528">Min</text>
-    <text x="-5505.5" y="560" font-size="24px">Pace (min / km)</text>
+    <text x="416.0" y="560" font-size="24px">Pace (min / km)</text>
 </svg>
