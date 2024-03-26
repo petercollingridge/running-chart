@@ -26,7 +26,7 @@
     stroke-linecap: round;
   }
   .count {
-    font-size: 18px;
+    font-size: 17px;
     dominant-baseline: middle;
   }
   .title {
@@ -51,47 +51,47 @@
         <text x="48.0" y="368.0">S</text>
         <g transform="translate(176.0 128)">
             <text>Jan</text>
-            <text y="22.4" class="count">4</text>
+            <text y="22.4" class="count">4 runs | 19 km</text>
         </g>
         <g transform="translate(320.0 128)">
             <text>Feb</text>
-            <text y="22.4" class="count">5</text>
+            <text y="22.4" class="count">5 runs | 25 km</text>
         </g>
         <g transform="translate(448.0 128)">
             <text>Mar</text>
-            <text y="22.4" class="count">10</text>
+            <text y="22.4" class="count">10 runs | 52 km</text>
         </g>
         <g transform="translate(576.0 128)">
             <text>Apr</text>
-            <text y="22.4" class="count">11</text>
+            <text y="22.4" class="count">11 runs | 64 km</text>
         </g>
         <g transform="translate(720.0 128)">
             <text>May</text>
-            <text y="22.4" class="count">9</text>
+            <text y="22.4" class="count">9 runs | 51 km</text>
         </g>
         <g transform="translate(864.0 128)">
             <text>Jun</text>
-            <text y="22.4" class="count">12</text>
+            <text y="22.4" class="count">12 runs | 72 km</text>
         </g>
         <g transform="translate(992.0 128)">
             <text>Jul</text>
-            <text y="22.4" class="count">10</text>
+            <text y="22.4" class="count">10 runs | 56 km</text>
         </g>
         <g transform="translate(1136.0 128)">
             <text>Aug</text>
-            <text y="22.4" class="count">9</text>
+            <text y="22.4" class="count">9 runs | 50 km</text>
         </g>
         <g transform="translate(1280.0 128)">
             <text>Sep</text>
-            <text y="22.4" class="count">13</text>
+            <text y="22.4" class="count">13 runs | 71 km</text>
         </g>
         <g transform="translate(1424.0 128)">
             <text>Oct</text>
-            <text y="22.4" class="count">15</text>
+            <text y="22.4" class="count">15 runs | 81 km</text>
         </g>
         <g transform="translate(1568.0 128)">
             <text>Nov</text>
-            <text y="22.4" class="count">5</text>
+            <text y="22.4" class="count">5 runs | 27 km</text>
         </g>
         <g transform="translate(1696.0 128)">
             <text>Dec</text>
@@ -463,7 +463,7 @@
     <rect class="month-1" x="1728" y="288" width="31" height="31"></rect>
     <rect class="month-1" x="1728" y="320" width="31" height="31"></rect>
     <text x="912.0" y="36.0" class="title">2022</text>
-    <text x="912.0" y="72" class="subtitle">103 runs; 568 km; 47hrs 36 mins; 5:02</text>
+    <text x="912.0" y="72" class="subtitle">103 runs | 568 km | 47hrs 36 mins | 5:02</text>
     <g class="count">
         <text x="1776.0" y="368.0">18</text>
         <text x="1776.0" y="336.0">10</text>

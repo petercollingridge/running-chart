@@ -169,7 +169,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     # Styles
     svg.addStyle('circle', {'fill-opacity': 0.7, 'stroke': 'white'})
     svg.addStyle('.cross', {'opacity': 0.7, 'stroke': 'rgb(60, 52, 52)', 'stroke-width': 3, 'stroke-linecap': 'round'})
-    svg.addStyle('.count', {'font-size': '18px', 'dominant-baseline': 'middle'})
+    svg.addStyle('.count', {'font-size': '17px', 'dominant-baseline': 'middle'})
     svg.addStyle('.title', {'font-size': '40px', 'dominant-baseline': 'middle', 'fill': '#222'})
     svg.addStyle('.subtitle', {'font-size': '24px', 'dominant-baseline': 'middle', 'fill': '#777'})
 
@@ -183,16 +183,19 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     total_time = sum(d['time'] for d in run_data)
     mean_pace = round(total_time / total_distance)
 
-    subtitle = f"{len(distances)} runs;"
-    subtitle += f" {round(total_distance)} km;"
-    subtitle += f" {_seconds_to_duration(total_time)};"
-    subtitle += f" {_seconds_to_time(mean_pace)}"
+    subtitle = ' | '.join([
+        f"{len(distances)} runs",
+        f"{round(total_distance)} km",
+        f"{_seconds_to_duration(total_time)}",
+        f"{_seconds_to_time(mean_pace)}",
+    ])
     svg.add('text', {'x': mid_x, 'y': 40 + size, 'class': 'subtitle'}, child=subtitle)    
 
     count_group = svg.add('g', {'class': 'count'})
     day_of_week_count = defaultdict(int)
     week_num_count = defaultdict(int)
     month_count = defaultdict(int)
+    month_dist = defaultdict(int)
 
     # Find number of first week, which will be 52 unless the first day is a Monday
     first_week = datetime.strptime(f'1 Jan {year}', '%d %b %Y').isocalendar()[1]
@@ -227,6 +230,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
         day_of_week_count[day_of_week] += 1
         week_num_count[week] += 1
         month_count[data['month']] += 1
+        month_dist[data['month']] += data['distance']
 
     # Write count of runs by day of week
     x = 53.5 * size + margin_x
@@ -234,7 +238,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
         y = margin_y + (day - 0.5) * size
         count_group.add('text', {'x': x, 'y': y}, child=count)
 
-    # Add total
+    # Add total runs for the tear
     y = margin_y + 7.5 * size
     count_group.add('text', {'x': x, 'y': y}, child=sum(day_of_week_count.values()))
 
@@ -245,8 +249,11 @@ def add_runs(svg, run_data, year, size, target_dist=5):
         count_group.add('text', {'x': x, 'y': y}, child=count)
 
     # Write count of runs by month
-    for month, count in month_count.items():
-        svg.groups[month].add('text', {'y': size * 0.7, 'class': 'count'}, child=count)
+    for month in month_count:
+        count = month_count.get(month)
+        if count:
+            text = f"{count} runs | {round(month_dist[month])} km"
+            svg.groups[month].add('text', {'y': size * 0.7, 'class': 'count'}, child=text)
 
     # Distance key
     # Shortest, median and longest distances
@@ -302,7 +309,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
 
 
 if __name__ == '__main__':
-    year = 2021
+    year = 2024
     size = 32
     filename = os.path.join('data', f"{year}.txt")
     run_data = read_data(filename)

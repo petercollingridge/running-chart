@@ -51,31 +51,31 @@
         <text x="48.0" y="368.0">S</text>
         <g transform="translate(176.0 128)">
             <text>Jan</text>
-            <text y="22.4" class="count">4</text>
+            <text y="22.4" class="count">4 runs | 22 km</text>
         </g>
         <g transform="translate(320.0 128)">
             <text>Feb</text>
-            <text y="22.4" class="count">3</text>
+            <text y="22.4" class="count">3 runs | 16 km</text>
         </g>
         <g transform="translate(448.0 128)">
             <text>Mar</text>
-            <text y="22.4" class="count">5</text>
+            <text y="22.4" class="count">5 runs | 28 km</text>
         </g>
         <g transform="translate(576.0 128)">
             <text>Apr</text>
-            <text y="22.4" class="count">3</text>
+            <text y="22.4" class="count">3 runs | 17 km</text>
         </g>
         <g transform="translate(720.0 128)">
             <text>May</text>
-            <text y="22.4" class="count">4</text>
+            <text y="22.4" class="count">4 runs | 22 km</text>
         </g>
         <g transform="translate(864.0 128)">
             <text>Jun</text>
-            <text y="22.4" class="count">2</text>
+            <text y="22.4" class="count">2 runs | 11 km</text>
         </g>
         <g transform="translate(1008.0 128)">
             <text>Jul</text>
-            <text y="22.4" class="count">2</text>
+            <text y="22.4" class="count">2 runs | 11 km</text>
         </g>
         <g transform="translate(1152.0 128)">
             <text>Aug</text>
@@ -85,11 +85,11 @@
         </g>
         <g transform="translate(1424.0 128)">
             <text>Oct</text>
-            <text y="22.4" class="count">4</text>
+            <text y="22.4" class="count">4 runs | 19 km</text>
         </g>
         <g transform="translate(1568.0 128)">
             <text>Nov</text>
-            <text y="22.4" class="count">1</text>
+            <text y="22.4" class="count">1 runs | 6 km</text>
         </g>
         <g transform="translate(1696.0 128)">
             <text>Dec</text>
@@ -461,7 +461,7 @@
     <rect class="month-1" x="1728" y="320" width="31" height="31"></rect>
     <rect class="month-1" x="1728" y="352" width="31" height="31"></rect>
     <text x="912.0" y="36.0" class="title">2023</text>
-    <text x="912.0" y="72" class="subtitle">28 runs; 151 km; 13hrs 17 mins; 5:17</text>
+    <text x="912.0" y="72" class="subtitle">28 runs | 151 km | 13hrs 17 mins | 5:17</text>
     <g class="count">
         <text x="1776.0" y="368.0">12</text>
         <text x="1776.0" y="304.0">1</text>
