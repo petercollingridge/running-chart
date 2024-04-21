@@ -202,7 +202,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     offset = 1 if first_week == 1 else 0
 
     # Draw circles on chart
-    for data in run_data:
+    for data in sorted(run_data, key = lambda x: x['distance'], reverse = True):
         run_date = datetime.strptime(f"{data['day']} {data['month']} {year}", '%d %b %Y')
         position = run_date.isocalendar()
 
