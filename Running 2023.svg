@@ -26,7 +26,7 @@
     stroke-linecap: round;
   }
   .count {
-    font-size: 18px;
+    font-size: 17px;
     dominant-baseline: middle;
   }
   .title {
@@ -464,66 +464,66 @@
     <text x="912.0" y="72" class="subtitle">28 runs | 151 km | 13hrs 17 mins | 5:17</text>
     <g class="count">
         <text x="1776.0" y="368.0">12</text>
-        <text x="1776.0" y="304.0">1</text>
-        <text x="1776.0" y="336.0">2</text>
-        <text x="1776.0" y="176.0">3</text>
-        <text x="1776.0" y="208.0">6</text>
-        <text x="1776.0" y="272.0">3</text>
         <text x="1776.0" y="240.0">1</text>
+        <text x="1776.0" y="208.0">6</text>
+        <text x="1776.0" y="176.0">3</text>
+        <text x="1776.0" y="272.0">3</text>
+        <text x="1776.0" y="336.0">2</text>
+        <text x="1776.0" y="304.0">1</text>
         <text x="1776.0" y="400.0">28</text>
+        <text x="432.0" y="400.0">2</text>
+        <text x="880.0" y="400.0">1</text>
+        <text x="912.0" y="400.0">1</text>
+        <text x="752.0" y="400.0">1</text>
+        <text x="560.0" y="400.0">1</text>
+        <text x="688.0" y="400.0">1</text>
+        <text x="1488.0" y="400.0">1</text>
+        <text x="464.0" y="400.0">2</text>
+        <text x="976.0" y="400.0">1</text>
+        <text x="1392.0" y="400.0">1</text>
+        <text x="240.0" y="400.0">2</text>
+        <text x="368.0" y="400.0">1</text>
+        <text x="496.0" y="400.0">1</text>
+        <text x="784.0" y="400.0">1</text>
+        <text x="944.0" y="400.0">1</text>
+        <text x="592.0" y="400.0">1</text>
+        <text x="1424.0" y="400.0">1</text>
         <text x="80.0" y="400.0">1</text>
         <text x="144.0" y="400.0">1</text>
         <text x="176.0" y="400.0">1</text>
-        <text x="240.0" y="400.0">2</text>
         <text x="304.0" y="400.0">2</text>
-        <text x="368.0" y="400.0">1</text>
-        <text x="432.0" y="400.0">2</text>
-        <text x="464.0" y="400.0">2</text>
-        <text x="496.0" y="400.0">1</text>
-        <text x="560.0" y="400.0">1</text>
-        <text x="592.0" y="400.0">1</text>
         <text x="656.0" y="400.0">1</text>
-        <text x="688.0" y="400.0">1</text>
-        <text x="752.0" y="400.0">1</text>
-        <text x="784.0" y="400.0">1</text>
-        <text x="880.0" y="400.0">1</text>
-        <text x="912.0" y="400.0">1</text>
-        <text x="944.0" y="400.0">1</text>
-        <text x="976.0" y="400.0">1</text>
-        <text x="1328.0" y="400.0">1</text>
         <text x="1360.0" y="400.0">1</text>
-        <text x="1392.0" y="400.0">1</text>
-        <text x="1424.0" y="400.0">1</text>
-        <text x="1488.0" y="400.0">1</text>
+        <text x="1328.0" y="400.0">1</text>
     </g>
+    <circle fill="rgb(245, 218, 0)" cx="432.0" cy="368.0" r="17.856"></circle>
+    <circle fill="rgb(222, 105, 0)" cx="880.0" cy="240.0" r="17.824"></circle>
+    <circle fill="rgb(226, 123, 0)" cx="912.0" cy="208.0" r="17.824"></circle>
+    <circle fill="rgb(234, 162, 0)" cx="752.0" cy="208.0" r="17.791999999999998"></circle>
+    <circle fill="rgb(232, 237, 0)" cx="560.0" cy="176.0" r="17.759999999999998"></circle>
+    <circle fill="rgb(229, 141, 0)" cx="688.0" cy="368.0" r="17.759999999999998"></circle>
+    <circle fill="rgb(232, 154, 0)" cx="1488.0" cy="368.0" r="17.759999999999998"></circle>
+    <circle fill="rgb(232, 152, 0)" cx="464.0" cy="368.0" r="17.728"></circle>
+    <circle fill="rgb(228, 133, 0)" cx="976.0" cy="272.0" r="17.728"></circle>
+    <circle fill="rgb(218, 86, 0)" cx="1392.0" cy="368.0" r="17.728"></circle>
+    <circle fill="rgb(248, 231, 0)" cx="240.0" cy="368.0" r="17.696"></circle>
+    <circle fill="rgb(226, 125, 0)" cx="368.0" cy="336.0" r="17.696"></circle>
+    <circle fill="rgb(227, 129, 0)" cx="464.0" cy="208.0" r="17.696"></circle>
+    <circle fill="rgb(246, 223, 0)" cx="496.0" cy="368.0" r="17.696"></circle>
+    <circle fill="rgb(208, 233, 0)" cx="784.0" cy="208.0" r="17.663999999999998"></circle>
+    <circle fill="rgb(227, 132, 0)" cx="944.0" cy="272.0" r="17.663999999999998"></circle>
+    <circle fill="rgb(240, 191, 0)" cx="592.0" cy="272.0" r="17.631999999999998"></circle>
+    <circle fill="rgb(238, 184, 0)" cx="1424.0" cy="368.0" r="17.631999999999998"></circle>
     <circle fill="rgb(230, 144, 0)" cx="80.0" cy="368.0" r="17.6"></circle>
     <circle fill="rgb(234, 162, 0)" cx="144.0" cy="304.0" r="17.6"></circle>
     <circle fill="rgb(224, 117, 0)" cx="176.0" cy="336.0" r="17.6"></circle>
     <circle fill="rgb(228, 135, 0)" cx="240.0" cy="176.0" r="17.6"></circle>
-    <circle fill="rgb(248, 231, 0)" cx="240.0" cy="368.0" r="17.696"></circle>
-    <circle fill="rgb(200, 2, 0)" cx="304.0" cy="208.0" r="14.4"></circle>
     <circle fill="rgb(235, 170, 0)" cx="304.0" cy="368.0" r="17.6"></circle>
-    <circle fill="rgb(226, 125, 0)" cx="368.0" cy="336.0" r="17.696"></circle>
     <circle fill="rgb(226, 126, 0)" cx="432.0" cy="208.0" r="17.568"></circle>
-    <circle fill="rgb(245, 218, 0)" cx="432.0" cy="368.0" r="17.856"></circle>
-    <circle fill="rgb(227, 129, 0)" cx="464.0" cy="208.0" r="17.696"></circle>
-    <circle fill="rgb(232, 152, 0)" cx="464.0" cy="368.0" r="17.728"></circle>
-    <circle fill="rgb(246, 223, 0)" cx="496.0" cy="368.0" r="17.696"></circle>
-    <circle fill="rgb(232, 237, 0)" cx="560.0" cy="176.0" r="17.759999999999998"></circle>
-    <circle fill="rgb(240, 191, 0)" cx="592.0" cy="272.0" r="17.631999999999998"></circle>
     <circle fill="rgb(217, 83, 0)" cx="656.0" cy="176.0" r="16.896"></circle>
-    <circle fill="rgb(229, 141, 0)" cx="688.0" cy="368.0" r="17.759999999999998"></circle>
-    <circle fill="rgb(234, 162, 0)" cx="752.0" cy="208.0" r="17.791999999999998"></circle>
-    <circle fill="rgb(208, 233, 0)" cx="784.0" cy="208.0" r="17.663999999999998"></circle>
-    <circle fill="rgb(222, 105, 0)" cx="880.0" cy="240.0" r="17.824"></circle>
-    <circle fill="rgb(226, 123, 0)" cx="912.0" cy="208.0" r="17.824"></circle>
-    <circle fill="rgb(227, 132, 0)" cx="944.0" cy="272.0" r="17.663999999999998"></circle>
-    <circle fill="rgb(228, 133, 0)" cx="976.0" cy="272.0" r="17.728"></circle>
-    <circle fill="rgb(208, 40, 0)" cx="1328.0" cy="368.0" r="10.24"></circle>
     <circle fill="rgb(212, 58, 0)" cx="1360.0" cy="368.0" r="16.064"></circle>
-    <circle fill="rgb(218, 86, 0)" cx="1392.0" cy="368.0" r="17.728"></circle>
-    <circle fill="rgb(238, 184, 0)" cx="1424.0" cy="368.0" r="17.631999999999998"></circle>
-    <circle fill="rgb(232, 154, 0)" cx="1488.0" cy="368.0" r="17.759999999999998"></circle>
+    <circle fill="rgb(200, 2, 0)" cx="304.0" cy="208.0" r="14.4"></circle>
+    <circle fill="rgb(208, 40, 0)" cx="1328.0" cy="368.0" r="10.24"></circle>
     <circle fill="rgb(140, 140, 140)" cx="85.0" cy="485.76" r="10.24"></circle>
     <text x="85.0" y="512">3.2</text>
     <text x="85.0" y="528">Min</text>
