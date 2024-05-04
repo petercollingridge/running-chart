@@ -13,7 +13,7 @@ class SVG_Element:
         if child is not None:
             self.children['root'] = [str(child)]
 
-    def addChildElement(self, tag, attributes=None, child=None):
+    def add_child(self, tag, attributes=None, child=None):
         """
             Create an element with given tag and atrributes,
             and append to self.children.
@@ -21,7 +21,7 @@ class SVG_Element:
         """
 
         child = SVG_Element(tag, attributes, child)
-        self.children.append(child)
+        self.children['root'].append(child)
         return child
 
     def add(self, tag, attributes=None, child=None):
@@ -34,21 +34,13 @@ class SVG_Element:
         kwargs['y'] = y
         kwargs['width'] = width
         kwargs['height'] = height
-
-        child = SVG_Element('rect', kwargs)
-        self.children.append(child)
-
-        return child
+        return self.add('rect', kwargs)
 
     def circle(self, x, y, r, **kwargs):
         kwargs['cx'] = x
         kwargs['cy'] = y
         kwargs['r'] = r
-
-        child = SVG_Element('circle', kwargs)
-        self.children.append(child)
-
-        return child
+        return self.add('circle', kwargs)
 
     def output(self, nesting=0):
         indent = ' ' * nesting * self.indent
@@ -64,16 +56,17 @@ class SVG_Element:
 
         for child_name in self.child_order:
             try:
-                child = self.children[child_name]
+                children = self.children[child_name]
             except KeyError:
                 print(f'No child with name {child_name}')
                 continue
 
-            if isinstance(child, SVG_Element):
-                child_string += '\n' + child.output(nesting + 1)
-                new_line = True
-            else:
-                child_string += child
+            for child in children:
+                if isinstance(child, SVG_Element):
+                    child_string += '\n' + child.output(nesting + 1)
+                    new_line = True
+                else:
+                    child_string += child
     
         if child_string:
             svg_string += '>' + child_string
@@ -98,7 +91,7 @@ class SVG(SVG_Element):
         self.attributes['xmlns'] = 'http://www.w3.org/2000/svg'
 
         style_element = SVG_Style_Element()
-        self.children['style'] = [style_element],
+        self.children['style'] = [style_element]
         self.child_order = ['style', 'root']
 
         self.style_dict = style_element.children
