@@ -6,16 +6,12 @@ class SVG_Element:
 
     def __init__(self, tag, attributes=None, child=None):
         self.tag = tag
-
-        if attributes:
-            self.attributes = attributes
-        else:
-            self.attributes = {}
+        self.attributes = attributes or {}
+        self.children = {'root': []}
+        self.child_order = ['root']
 
         if child is not None:
-            self.children = [str(child)]
-        else:
-            self.children = []
+            self.children['root'] = [str(child)]
 
     def addChildElement(self, tag, attributes=None, child=None):
         """
@@ -30,7 +26,7 @@ class SVG_Element:
 
     def add(self, tag, attributes=None, child=None):
         child = SVG_Element(tag, attributes, child)
-        self.children.append(child)
+        self.children['root'].append(child)
         return child
 
     def rect(self, x, y, width, height, **kwargs):
@@ -56,30 +52,40 @@ class SVG_Element:
 
     def output(self, nesting=0):
         indent = ' ' * nesting * self.indent
-        svg_string = indent + f'<{self.tag}'
+        svg_string = f'{indent}<{self.tag}'
 
         for key, value in self.attributes.items():
             if key == 'classname':
                 key = 'class'
             svg_string += f' {key}="{value}"'
 
-        if self.children is None:
-            svg_string += '/>'
-        else:
-            svg_string += '>'
+        child_string = ''
+        new_line = False
 
-            new_line = False
-            for child in self.children:
-                if isinstance(child, SVG_Element):
-                    svg_string += '\n' + child.output(nesting + 1)
-                    new_line = True
-                else:
-                    svg_string += child
+        for child_name in self.child_order:
+            try:
+                child = self.children[child_name]
+            except KeyError:
+                print(f'No child with name {child_name}')
+                continue
+
+            if isinstance(child, SVG_Element):
+                child_string += '\n' + child.output(nesting + 1)
+                new_line = True
+            else:
+                child_string += child
+    
+        if child_string:
+            svg_string += '>' + child_string
 
             if new_line:
-                svg_string += f'\n{indent}</{self.tag}>'
-            else:
-                svg_string += f'</{self.tag}>'
+                svg_string += '\n' + indent
+
+            svg_string += f'</{self.tag}>'
+
+        else:
+            # Self closing tag
+            svg_string += '/>'
 
         return svg_string
 
@@ -92,8 +98,10 @@ class SVG(SVG_Element):
         self.attributes['xmlns'] = 'http://www.w3.org/2000/svg'
 
         style_element = SVG_Style_Element()
-        self.styleDict = style_element.children
-        self.children.append(style_element)
+        self.children['style'] = [style_element],
+        self.child_order = ['style', 'root']
+
+        self.style_dict = style_element.children
 
     def addStyle(self, element, attributes):
         """
@@ -101,9 +109,9 @@ class SVG(SVG_Element):
             form {selector: value}
         """
 
-        if element not in self.styleDict:
-            self.styleDict[element] = {}
-        self.styleDict[element].update(attributes)
+        if element not in self.style_dict:
+            self.style_dict[element] = {}
+        self.style_dict[element].update(attributes)
 
     def outputToFile(self, filename):
         """ Prints output to a given filename. Add a .svg extenstion if not given. """
@@ -138,7 +146,7 @@ class SVG_Style_Element(SVG_Element):
             style_string += '  %s {\n' % element
 
             for key, value in style.items():
-                style_string += '    %s: %s;\n' % (key, value)
+                style_string += f'    {key}: {value};\n'
             style_string += '  }\n'
 
         style_string += '  </style>\n'
