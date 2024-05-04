@@ -1,4 +1,5 @@
 import os
+import sys
 from collections import defaultdict
 from calendar import month_abbr
 from datetime import date, datetime
@@ -202,7 +203,8 @@ def add_runs(svg, run_data, year, size, target_dist=5):
     offset = 1 if first_week == 1 else 0
 
     # Draw circles on chart
-    for data in sorted(run_data, key = lambda x: x['distance'], reverse = True):
+    run_data.sort(key = lambda x: x['distance'], reverse = True)
+    for data in run_data:
         run_date = datetime.strptime(f"{data['day']} {data['month']} {year}", '%d %b %Y')
         position = run_date.isocalendar()
 
@@ -238,7 +240,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
         y = margin_y + (day - 0.5) * size
         count_group.add('text', {'x': x, 'y': y}, child=count)
 
-    # Add total runs for the tear
+    # Add total runs for the year
     y = margin_y + 7.5 * size
     count_group.add('text', {'x': x, 'y': y}, child=sum(day_of_week_count.values()))
 
@@ -309,7 +311,7 @@ def add_runs(svg, run_data, year, size, target_dist=5):
 
 
 if __name__ == '__main__':
-    year = 2024
+    year = 2024 if len(sys.argv) == 1 else int(sys.argv[1])
     size = 32
     filename = os.path.join('data', f"{year}.txt")
     run_data = read_data(filename)
