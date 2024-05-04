@@ -1,11 +1,11 @@
 class SVG_Element:
     """ Generic element with attributes and potential child elements.
-        Outputs as <type attribute dict> child </type>."""
+        Outputs as <tag attribute dict> child </tag>."""
 
     indent = 4
 
-    def __init__(self, type, attributes=None, child=None):
-        self.type = type
+    def __init__(self, tag, attributes=None, child=None):
+        self.tag = tag
 
         if attributes:
             self.attributes = attributes
@@ -19,7 +19,7 @@ class SVG_Element:
 
     def addChildElement(self, tag, attributes=None, child=None):
         """
-            Create an element with given tag type and atrributes,
+            Create an element with given tag and atrributes,
             and append to self.children.
             Returns the child element.
         """
@@ -56,13 +56,12 @@ class SVG_Element:
 
     def output(self, nesting=0):
         indent = ' ' * nesting * self.indent
-
-        svg_string = indent + '<%s' % (self.type)
+        svg_string = indent + f'<{self.tag}'
 
         for key, value in self.attributes.items():
             if key == 'classname':
-              key = 'class'
-            svg_string += ' %s="%s"' % (key, value)
+                key = 'class'
+            svg_string += f' {key}="{value}"'
 
         if self.children is None:
             svg_string += '/>'
@@ -78,9 +77,9 @@ class SVG_Element:
                     svg_string += child
 
             if new_line:
-                svg_string += '\n' + indent + '</%s>' % (self.type)
+                svg_string += f'\n{indent}</{self.tag}>'
             else:
-                svg_string += '</%s>' % (self.type)
+                svg_string += f'</{self.tag}>'
 
         return svg_string
 
