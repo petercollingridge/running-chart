@@ -16,6 +16,7 @@ colours = (
 )
 
 def _get_day_in_month(year, month):
+    """ Given a year and month, return the number of days in the month. """
     if month == 12:
         return 31
     return (datetime(year, month + 1, 1) - datetime(year, month, 1)).days
@@ -32,6 +33,7 @@ def _get_colour(x):
 
 
 def _get_stats(arr):
+    """ Given an array of numbers return a tuple of minimum, median, and maximum. """
     filtered_arr = [item for item in arr if item]
     return (
         ('Min', min(filtered_arr)),
@@ -84,6 +86,11 @@ def read_data(filename):
 
 
 def get_day_positions(year):
+    """
+    Given a year, return an array of dict with x, y and month attibutes,
+    representing the position of days on a grid representing the calendar
+    """
+
     week_num = 0
     month = 1
     weekday = date(year, 1, 1).weekday()
