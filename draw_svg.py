@@ -13,7 +13,7 @@ class SVG_Element:
         if child is not None:
             self.children['root'] = [str(child)]
 
-    def add_child(self, tag, attributes=None, child=None):
+    def add(self, tag, attributes=None, child=None):
         """
             Create an element with given tag and atrributes,
             and append to self.children.
@@ -23,11 +23,15 @@ class SVG_Element:
         child = SVG_Element(tag, attributes, child)
         self.children['root'].append(child)
         return child
+    
+    def add_section(self, section_id):
+        section = SVG_Section()
+        self.children[section_id] = section
+        self.child_order.append(section_id)
+        return section
 
-    def add(self, tag, attributes=None, child=None):
-        child = SVG_Element(tag, attributes, child)
-        self.children['root'].append(child)
-        return child
+    def get_section(self, section_id):
+        return self.children[section_id]
 
     def rect(self, x, y, width, height, **kwargs):
         kwargs['x'] = x
@@ -51,22 +55,7 @@ class SVG_Element:
                 key = 'class'
             svg_string += f' {key}="{value}"'
 
-        child_string = ''
-        new_line = False
-
-        for child_name in self.child_order:
-            try:
-                children = self.children[child_name]
-            except KeyError:
-                print(f'No child with name {child_name}')
-                continue
-
-            for child in children:
-                if isinstance(child, SVG_Element):
-                    child_string += '\n' + child.output(nesting + 1)
-                    new_line = True
-                else:
-                    child_string += child
+        child_string, new_line = self._write_children(nesting + 1)
     
         if child_string:
             svg_string += '>' + child_string
@@ -81,6 +70,30 @@ class SVG_Element:
             svg_string += '/>'
 
         return svg_string
+
+    def _write_children(self, nesting):
+        child_string = ''
+        new_line = False
+
+        for child_name in self.child_order:
+            try:
+                children = self.children[child_name]
+            except KeyError:
+                print(f'No child with name {child_name}')
+                continue
+
+            if isinstance(children, SVG_Section):
+                section_string, new_line = children._write_children(nesting)
+                child_string += section_string
+            else:
+                for child in children:
+                    if isinstance(child, SVG_Element):
+                        child_string += '\n' + child.output(nesting)
+                        new_line = True
+                    else:
+                        child_string += child
+    
+        return child_string, new_line
 
 
 class SVG(SVG_Element):
@@ -145,3 +158,13 @@ class SVG_Style_Element(SVG_Element):
         style_string += '  </style>\n'
 
         return style_string
+
+
+class SVG_Section(SVG_Element):
+    """
+    An empty element which is not written but can be used to organise SVG elements.
+    """
+
+    def __init__(self):
+        self.children = {'root': []}
+        self.child_order = ['root']
