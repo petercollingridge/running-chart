@@ -352,11 +352,7 @@ def draw_chart(filename, size, year):
         'coords': lambda x, y: (margin_x + x * size, chart_y + y * size),
         'radius': lambda x: x / target_dist * size / 2,
     }
-
-    # svg = draw_calendar(day_positions, size)
-    # add_runs(svg, run_data, year, size)
-    # svg.write(f"Running {year}")
-
+    
     svg = get_svg(chart_params)
 
     write_title(svg, width * 0.5, 36, run_data)
@@ -367,7 +363,7 @@ def draw_chart(filename, size, year):
     draw_distance_key(svg, chart_params, run_data, margin_x, key_y)
     draw_pace_key(svg, chart_params, run_data, margin_x + size * 8, key_y)
 
-    svg.write('test')
+    svg.write(f"Running {year}")
 
 
 if __name__ == '__main__':
