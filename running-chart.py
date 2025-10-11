@@ -6,30 +6,14 @@ from datetime import date, datetime
 from draw_svg import SVG
 from math import floor
 
-colours = (
-    (6.25, (0, 0, 0)),      # Black
-    (5.75, (200, 0, 0)),    # Red
-    (5, (250, 240, 0)),     # Yellow
-    (4.75, (0, 200, 0)),    # Green
-    (4.5, (0, 0, 200)),     # Blue
-    (4, (0, 0, 50)),        # Dark blue
-)
+from utils import get_pace_colour, read_data
+
 
 def _get_day_in_month(year, month):
     """ Given a year and month, return the number of days in the month. """
     if month == 12:
         return 31
     return (datetime(year, month + 1, 1) - datetime(year, month, 1)).days
-
-
-def _get_colour(x):
-    for i, colour in enumerate(colours):
-        if x > colour[0]:
-            # Propotion of the way through this band
-            t1, c1 = colour
-            t2, c2 = colours[i - 1]
-            p = (x - t1) / (t2 - t1)
-            return [round(c2[n] * p + c1[n] * (1 - p)) for n in range(3)]
 
 
 def _get_stats(arr):
@@ -54,37 +38,6 @@ def _seconds_to_duration(s):
     return f"{hours}hrs {minutes} mins"
 
 
-def read_data(filename):
-    run_data = []
-    with open(filename, 'r') as f:
-        for line in f:
-            data = line.strip().split()
-            day = data[0]
-            month = data[1]
-
-            if len(data) > 2 and data[2]:
-                run_time = data[2].split(':')
-                run_time_seconds = sum(int(t) * 60 ** (2 - i) for i, t in enumerate(run_time))
-            else:
-                run_time_seconds = 0
-
-            if len(data) > 3 and data[3]:
-                distance = float(data[3])
-                pace = run_time_seconds / float(distance) / 60
-            else:
-                distance = 0
-                pace = None
-
-            run_data.append({
-                'day': day,
-                'month': month,
-                'distance': distance,
-                'time': run_time_seconds,
-                'pace': pace,
-            })
-    return run_data
-
-
 def get_week_data(run_data, year):
     # Find number of first week, which will be 52 unless the first day is a Monday
     first_week = datetime.strptime(f'1 Jan {year}', '%d %b %Y').isocalendar()[1]
@@ -97,6 +50,8 @@ def get_week_data(run_data, year):
         # At the beginning of the year the iso week can be in the previous year
         if position[0] < year:
             data['week'] = 0
+        elif position[0] > year:
+            data['week'] = 52
         else:
             data['week'] = position[1] - offset
 
@@ -114,6 +69,7 @@ def get_day_positions(year):
     weekday = date(year, 1, 1).weekday()
 
     positions_by_month = []
+    days_in_month = 1
 
     while month <= 12:
         if month > len(positions_by_month):
@@ -134,6 +90,7 @@ def get_day_positions(year):
 
         # Count down to see if we reach the end of the month
         days_in_month -= 1
+
         if days_in_month == 0:
             month += 1
 
@@ -216,12 +173,11 @@ def draw_runs(svg, chart_params, run_data):
         x, y = chart_params['coords'](data['week'] + 0.5, data['day_of_week'] - 0.5)
 
         if data['pace']:
-            colour = _get_colour(data['pace'])
-            fill = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
+            fill = get_pace_colour(data['pace'])
             r = chart_params['radius'](data['distance'])
             svg.circle(x, y, r, fill=fill)
         else:
-            r = size * 0.2
+            r = chart_params['radius'](data['distance'])
             d = f"M{x - r} {y - r}l{r * 2} {r * 2}"
             d += f"M{x - r} {y + r}l{r * 2} {r * -2}"
             svg.add('path', {'d': d, 'class': 'cross'})
@@ -314,8 +270,7 @@ def draw_pace_key(svg, chart_params, run_data, x, y):
     for dx in range(max_width):
         p = dx / (max_width - 1)
         seconds = p * min_seconds + (1 - p) * max_seconds
-        colour = _get_colour(seconds / 60)
-        fill = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
+        fill = get_pace_colour(seconds / 60)
         svg.rect(x + dx, cy, 1.1, size, fill=fill)
 
         if not med_drawn and seconds <= med_seconds:
@@ -367,7 +322,11 @@ def draw_chart(filename, size, year):
 
 
 if __name__ == '__main__':
-    year = 2024 if len(sys.argv) == 1 else int(sys.argv[1])
+    if len(sys.argv) == 1:
+        year = 2025
+    else:
+        year = int(sys.argv[1])
+
     size = 32
     filename = os.path.join('data', f"{year}.txt")
 
