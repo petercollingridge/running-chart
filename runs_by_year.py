@@ -65,7 +65,7 @@ def draw_year_bar(svg, data, x, y, scale_width):
 def add_bar_labels(svg, data, year, x, y):
     mean_distance = sum(run['distance'] for run in data) / len(data) if data else 0
     bar_height = len(data) * BAR_HEIGHT
-    svg.add('text', {'x': x, 'y': y + 25, 'font-size': '18px' }, year)
+    svg.add('text', {'x': x, 'y': y + 22, 'font-size': '18px' }, year)
     svg.add('text', {'x': x, 'y': y - bar_height - 2, 'font-size': '13px' }, f"{mean_distance:.1f}km")
 
 
