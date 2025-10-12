@@ -6,7 +6,7 @@ from datetime import date, datetime
 from draw_svg import SVG
 from math import floor
 
-from utils import get_pace_colour, read_data
+from utils import get_pace_colour, read_data, seconds_to_time
 
 
 def _get_day_in_month(year, month):
@@ -24,12 +24,6 @@ def _get_stats(arr):
         ('Med', sorted(filtered_arr)[len(filtered_arr) // 2]),
         ('Max', max(filtered_arr)),
     )
-
-
-def _seconds_to_time(s):
-    minutes = floor(s / 60)
-    seconds = s % 60
-    return f"{minutes}:{seconds:02d}"
 
 
 def _seconds_to_duration(s):
@@ -148,7 +142,7 @@ def write_title(svg, x, y, run_data):
         f"{len(distances)} runs",
         f"{round(total_distance)} km",
         f"{_seconds_to_duration(total_time)}",
-        f"{_seconds_to_time(mean_pace)}",
+        f"{seconds_to_time(mean_pace)}",
     ])
 
     svg.add('text', {'x': x, 'y': y, 'class': 'title'}, child=year)
@@ -264,7 +258,7 @@ def draw_pace_key(svg, chart_params, run_data, x, y):
     max_width = size * 6
     med_drawn = False
 
-    svg.add('text', {'x': x, 'y': y}, child=_seconds_to_time(max_seconds))
+    svg.add('text', {'x': x, 'y': y}, child=seconds_to_time(max_seconds))
     svg.add('text', {'x': x, 'y': y + 16}, child='Max')
 
     for dx in range(max_width):
@@ -275,10 +269,10 @@ def draw_pace_key(svg, chart_params, run_data, x, y):
 
         if not med_drawn and seconds <= med_seconds:
             med_drawn = True
-            svg.add('text', {'x': x + dx, 'y': y}, child=_seconds_to_time(med_seconds))
+            svg.add('text', {'x': x + dx, 'y': y}, child=seconds_to_time(med_seconds))
             svg.add('text', {'x': x + dx, 'y': y + 16}, child='Med')
 
-    svg.add('text', {'x': x + max_width, 'y': y}, child=_seconds_to_time(min_seconds))
+    svg.add('text', {'x': x + max_width, 'y': y}, child=seconds_to_time(min_seconds))
     svg.add('text', {'x': x + max_width, 'y': y + 16}, child='Min')
     svg.add('text', {'x': x + max_width / 2, 'y': y + 48, 'font-size': '24px'}, child="Pace (min / km)")
 
@@ -322,11 +316,7 @@ def draw_chart(filename, size, year):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        year = 2025
-    else:
-        year = int(sys.argv[1])
-
+    year = 2025 if len(sys.argv) == 1 else int(sys.argv[1])
     size = 32
     filename = os.path.join('data', f"{year}.txt")
 

@@ -1,3 +1,5 @@
+from math import floor
+
 colours = (
     (6.25, (0, 0, 0)),      # Black
     (5.75, (200, 0, 0)),    # Red
@@ -51,3 +53,9 @@ def read_data(filename):
                 'pace': pace,
             })
     return run_data
+
+
+def seconds_to_time(s):
+    minutes = floor(s / 60)
+    seconds = floor(s) % 60
+    return f"{minutes}:{seconds:02d}"

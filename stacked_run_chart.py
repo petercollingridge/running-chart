@@ -48,7 +48,7 @@ def draw_axes(svg, max_runs):
         svg.add('text', {'x': x1 - 5, 'y': y, 'class': 'y-axis-label'}, i)
 
 
-def draw_year_bar(svg, data, x, y, scale_width):
+def draw_year_stack(svg, data, x, y, scale_width):
 
     bar_y = y - BAR_HEIGHT
     for run in data:
@@ -69,7 +69,7 @@ def add_bar_labels(svg, data, year, x, y):
     svg.add('text', {'x': x, 'y': y - bar_height - 2, 'font-size': '13px' }, f"{mean_distance:.1f}km")
 
 
-def draw_year_bars(svg, data, y, bar_gap):
+def draw_year_stacks(svg, data, y, bar_gap):
     """ Draw a series of year bars. """
 
     chart_width = SVG_WIDTH - MARGIN_X1 - MARGIN_X2
@@ -84,7 +84,7 @@ def draw_year_bars(svg, data, y, bar_gap):
     years = sorted(data.keys())
     for year in years:
         year_data = data[year]
-        draw_year_bar(svg, year_data, x, y, scale_width)
+        draw_year_stack(svg, year_data, x, y, scale_width)
         add_bar_labels(svg, year_data, year, x, y)
         x += bar_width + bar_gap
 
@@ -96,9 +96,9 @@ def draw_runs_by_year(runs_by_year):
     max_runs = max(len(runs) for runs in runs_by_year.values())
 
     draw_axes(svg, max_runs)
-    draw_year_bars(svg, runs_by_year, SVG_HEIGHT - MARGIN_Y2, 20)
+    draw_year_stacks(svg, runs_by_year, SVG_HEIGHT - MARGIN_Y2, 20)
 
-    svg.write("Runs by year")
+    svg.write("Stacked run chart.svg")
 
 
 if __name__ == '__main__':
