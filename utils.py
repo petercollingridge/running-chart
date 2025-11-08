@@ -1,12 +1,22 @@
+import os
 from math import floor
+
+# colours = (
+#     (6.25, (0, 0, 0)),      # Black
+#     (5.75, (200, 0, 0)),    # Red
+#     (5, (250, 240, 0)),     # Yellow
+#     (4.75, (0, 200, 0)),    # Green
+#     (4.5, (0, 0, 160)),     # Dark blue
+#     (4, (160, 160, 255)),   # Light blue
+# )
 
 colours = (
     (6.25, (0, 0, 0)),      # Black
     (5.75, (200, 0, 0)),    # Red
     (5, (250, 240, 0)),     # Yellow
     (4.75, (0, 200, 0)),    # Green
-    (4.5, (0, 0, 160)),     # Dark blue
-    (4, (160, 160, 255)),   # Light blue
+    (4.5, (60, 120, 255)),   # Light blue
+    (4, (0, 0, 120)),     # Dark blue
 )
 
 
@@ -59,3 +69,28 @@ def seconds_to_time(s):
     minutes = floor(s / 60)
     seconds = floor(s) % 60
     return f"{minutes}:{seconds:02d}"
+
+
+def get_colours_for_year(years):
+    """ Return a dict mapping year to colour. """
+    colours = {}
+    blue_step = 255 // len(years)
+    green_step = 200 // (len(years) - 1)
+
+    for i, year in enumerate(years):
+        blue = 255 - i * blue_step
+        green = 200 - i * green_step
+        colours[year] = f'rgb(0, {green}, {blue})'
+
+    return colours
+
+
+def get_runs_by_year(folder = 'data'):
+    """ Return a dict mapping year (str) to list run dicts. """
+    runs_by_year = {}
+    for filename in os.listdir(folder):
+        if filename.endswith('.txt'):
+            year = filename[:-4]
+            filepath = os.path.join(folder, filename)
+            runs_by_year[year] = read_data(filepath)
+    return runs_by_year

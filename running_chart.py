@@ -8,6 +8,7 @@ from math import floor
 
 from utils import get_pace_colour, read_data, seconds_to_time
 
+size = 32
 
 def _get_day_in_month(year, month):
     """ Given a year and month, return the number of days in the month. """
@@ -131,7 +132,7 @@ def get_svg(chart_params):
     return svg
 
 
-def write_title(svg, x, y, run_data):
+def write_title(svg, x, y, run_data, year):
     # Subtitle
     distances = [d['distance'] for d in run_data]
     total_distance = sum(distances)
@@ -277,18 +278,19 @@ def draw_pace_key(svg, chart_params, run_data, x, y):
     svg.add('text', {'x': x + max_width / 2, 'y': y + 48, 'font-size': '24px'}, child="Pace (min / km)")
 
 
-def draw_chart(filename, size, year):
+def draw_chart(runs_by_year, year, filename):
     target_dist = 5
 
-    run_data = read_data(filename)
+    run_data = runs_by_year[f"{year}"].copy()
     get_week_data(run_data, year)
     day_positions = get_day_positions(year)
     counts = get_counts(run_data)
+    max_dist = max(d['distance'] for d in run_data)
 
     # Chart parameters for layout
     margin_x = size * 2
     chart_y = size * 5
-    key_y = chart_y + 7 * size + size * 4.5
+    key_y = chart_y + 8 * size + size * max_dist / 5 + 10
     width = (day_positions[-1]['days'][-1]['x'] + 1) * size + margin_x * 2
     height = key_y + size
 
@@ -301,10 +303,10 @@ def draw_chart(filename, size, year):
         'coords': lambda x, y: (margin_x + x * size, chart_y + y * size),
         'radius': lambda x: x / target_dist * size / 2,
     }
-    
+
     svg = get_svg(chart_params)
 
-    write_title(svg, width * 0.5, 36, run_data)
+    write_title(svg, width * 0.5, 36, run_data, year)
     draw_calendar(svg, chart_params, day_positions)
     draw_runs(svg, chart_params, run_data)
     write_labels(svg, chart_params, counts)
@@ -312,12 +314,12 @@ def draw_chart(filename, size, year):
     draw_distance_key(svg, chart_params, run_data, margin_x, key_y)
     draw_pace_key(svg, chart_params, run_data, margin_x + size * 8, key_y)
 
-    svg.write(f"Running {year}")
+    svg.write(filename)
 
 
 if __name__ == '__main__':
     year = 2025 if len(sys.argv) == 1 else int(sys.argv[1])
-    size = 32
     filename = os.path.join('data', f"{year}.txt")
+    runs_by_year = read_data(filename)
 
-    draw_chart(filename, size, year)
+    draw_chart(runs_by_year, year, os.path.join("images", f"Running chart {year}.svg"))

@@ -1,6 +1,5 @@
-import os
 from math import ceil
-from utils import get_pace_colour, read_data
+from utils import get_runs_by_year, get_pace_colour
 from draw_svg import SVG
 
 SVG_WIDTH = 1200
@@ -8,19 +7,9 @@ SVG_HEIGHT = 800
 MARGIN_X1 = 50
 MARGIN_X2 = 10
 MARGIN_Y1 = 10
-MARGIN_Y2 = 40
+MARGIN_Y2 = 45
 BAR_HEIGHT = 5
-
-
-def get_runs_by_year(folder = 'data'):
-    """ Return a dict mapping year (str) to list run dicts. """
-    runs_by_year = {}
-    for filename in os.listdir(folder):
-        if filename.endswith('.txt'):
-            year = filename[:-4]
-            filepath = os.path.join(folder, filename)
-            runs_by_year[year] = read_data(filepath)
-    return runs_by_year
+BAR_GAP = 40
 
 
 def get_svg(chart_params):
@@ -63,10 +52,19 @@ def draw_year_stack(svg, data, x, y, scale_width):
 
 
 def add_bar_labels(svg, data, year, x, y):
-    mean_distance = sum(run['distance'] for run in data) / len(data) if data else 0
+    data_with_pace = [run['pace'] for run in data if run['pace'] is not None]
+    data_with_distance = [run['distance'] for run in data if run['distance']]
+    mean_pace = sum(data_with_pace) / len(data_with_pace)
+    min_distance = min(data_with_distance)
+    max_distance = max(data_with_distance)
+    mean_distance = sum(data_with_distance) / len(data_with_distance)
+
     bar_height = len(data) * BAR_HEIGHT
-    svg.add('text', {'x': x, 'y': y + 22, 'font-size': '18px' }, year)
-    svg.add('text', {'x': x, 'y': y - bar_height - 2, 'font-size': '13px' }, f"{mean_distance:.1f}km")
+    svg.add('text', {'x': x, 'y': y - bar_height - 3, 'font-size': '20px', 'fill': get_pace_colour(mean_pace) }, year)
+
+    svg.add('text', {'x': x, 'y': y + 12, 'font-size': '12px' }, f"{min_distance:.1f}km")
+    svg.add('text', {'x': x, 'y': y + 25, 'font-size': '12px' }, f"{mean_distance:.1f}km")
+    svg.add('text', {'x': x, 'y': y + 38, 'font-size': '12px' }, f"{max_distance:.1f}km")
 
 
 def draw_year_stacks(svg, data, y, bar_gap):
@@ -74,33 +72,43 @@ def draw_year_stacks(svg, data, y, bar_gap):
 
     chart_width = SVG_WIDTH - MARGIN_X1 - MARGIN_X2
     num_years = len(data)
-    max_distance = max( max(run['distance'] for run in year_data) for year_data in data.values()) 
-    bar_space =  chart_width / num_years
-    bar_width = bar_space - bar_gap
-    scale_width = bar_width / max_distance
+    max_dist_for_year = sum(max(run['distance'] for run in year_data) for year_data in data.values()) 
+    scale_width = (chart_width - bar_gap * (num_years + 1)) / max_dist_for_year
 
-    x = MARGIN_X1 + bar_width / 2
+    x = MARGIN_X1 + bar_gap
 
     years = sorted(data.keys())
     for year in years:
         year_data = data[year]
-        draw_year_stack(svg, year_data, x, y, scale_width)
+        max_dist = max(run['distance'] for run in year_data) if year_data else 0
+        bar_width = max_dist * scale_width
+        x += bar_width / 2
+
+        # Draw axis lines
+        for d in range(5, int(max_dist) + 1, 5):
+            dx = scale_width * d / 2
+            svg.add('line', {'x1': x - dx, 'y1': y, 'x2': x - dx, 'y2': MARGIN_Y1, 'class': 'axis'})
+            svg.add('line', {'x1': x + dx, 'y1': y, 'x2': x + dx, 'y2': MARGIN_Y1, 'class': 'axis'})
+
         add_bar_labels(svg, year_data, year, x, y)
-        x += bar_width + bar_gap
+
+        # Draw bars
+        draw_year_stack(svg, year_data, x, y, scale_width)
+        x += bar_width / 2 + bar_gap
 
 
-def draw_runs_by_year(runs_by_year):
+def draw_stacked_runs(runs_by_year, filename):
     """ Draw a chart of runs by year. """
 
     svg = get_svg({ 'width': SVG_WIDTH, 'height': SVG_HEIGHT })
     max_runs = max(len(runs) for runs in runs_by_year.values())
 
     draw_axes(svg, max_runs)
-    draw_year_stacks(svg, runs_by_year, SVG_HEIGHT - MARGIN_Y2, 20)
+    draw_year_stacks(svg, runs_by_year, SVG_HEIGHT - MARGIN_Y2, BAR_GAP)
 
-    svg.write("Stacked run chart.svg")
+    svg.write(filename)
 
 
 if __name__ == '__main__':
     runs_by_year = get_runs_by_year()
-    draw_runs_by_year(runs_by_year)
+    draw_stacked_runs(runs_by_year, "Stacked run chart.svg")
