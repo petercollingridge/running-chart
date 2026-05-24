@@ -322,4 +322,4 @@ if __name__ == '__main__':
     filename = os.path.join('data', f"{year}.txt")
     runs_by_year = read_data(filename)
 
-    draw_chart(runs_by_year, year, os.path.join("images", f"Running chart {year}.svg"))
+    draw_chart(runs_by_year, year, os.path.join("images", f"Running {year}.svg"))

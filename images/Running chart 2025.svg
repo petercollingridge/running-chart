@@ -42,7 +42,7 @@
   </style>
 
     <text x="912.0" y="36" class="title">2025</text>
-    <text x="912.0" y="72" class="subtitle">122 runs | 858 km | 68hrs 31 mins | 4:48</text>
+    <text x="912.0" y="72" class="subtitle">123 runs | 868 km | 69hrs 21 mins | 4:48</text>
     <rect class="month-1" x="64" y="224" width="31" height="31"/>
     <rect class="month-1" x="64" y="256" width="31" height="31"/>
     <rect class="month-1" x="64" y="288" width="31" height="31"/>
@@ -425,6 +425,7 @@
     <circle fill="rgb(150, 224, 0)" cx="976.0" cy="368.0" r="35.296"/>
     <circle fill="rgb(224, 236, 0)" cx="592.0" cy="368.0" r="35.263999999999996"/>
     <circle fill="rgb(117, 219, 0)" cx="496.0" cy="368.0" r="35.2"/>
+    <circle fill="rgb(6, 191, 28)" cx="1488.0" cy="336.0" r="34.08"/>
     <circle fill="rgb(14, 182, 57)" cx="1424.0" cy="336.0" r="33.952"/>
     <circle fill="rgb(25, 167, 106)" cx="1296.0" cy="336.0" r="33.408"/>
     <circle fill="rgb(179, 229, 0)" cx="880.0" cy="368.0" r="33.216"/>
@@ -575,15 +576,15 @@
         <text x="1392.0" y="400.0">3</text>
         <text x="1424.0" y="400.0">3</text>
         <text x="1456.0" y="400.0">2</text>
-        <text x="1488.0" y="400.0">2</text>
+        <text x="1488.0" y="400.0">3</text>
         <text x="1776.0" y="304.0">18</text>
         <text x="1776.0" y="272.0">19</text>
         <text x="1776.0" y="176.0">14</text>
         <text x="1776.0" y="240.0">18</text>
-        <text x="1776.0" y="336.0">10</text>
+        <text x="1776.0" y="336.0">11</text>
         <text x="1776.0" y="368.0">22</text>
         <text x="1776.0" y="208.0">21</text>
-        <text x="1776.0" y="400.0">122</text>
+        <text x="1776.0" y="400.0">123</text>
     </g>
     <g class="axis-label">
         <text x="48.0" y="176.0">M</text>
@@ -637,7 +638,7 @@
         </g>
         <g transform="translate(1536.0 128)">
             <text>Nov</text>
-            <text y="22.4" class="count">3 runs | 17 km</text>
+            <text y="22.4" class="count">4 runs | 28 km</text>
         </g>
         <g transform="translate(1680.0 128)">
             <text>Dec</text>

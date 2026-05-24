@@ -5,8 +5,8 @@ from draw_svg import SVG
 
 SVG_WIDTH = 1200
 SVG_HEIGHT = 800
-MARGIN_X1 = 30
-MARGIN_X2 = 10
+MARGIN_X1 = 50
+MARGIN_X2 = 50
 MARGIN_Y1 = 10
 MARGIN_Y2 = 40
 
@@ -28,7 +28,7 @@ def get_svg(chart_params):
     svg.addStyle('.plot-line', { 'fill': 'none', 'stroke-width': '3px', 'opacity': '0.8', 'stroke': 'currentColor' })
     svg.addStyle('.plot-area', { 'fill': 'currentColor', 'opacity': '0.25' })
     svg.addStyle('.plot-point', { 'opacity': '0.8', 'fill': 'currentColor', 'stroke': 'white', 'stroke-width': '1px' })
-    svg.addStyle('.axis', { 'stroke-width': '1px', 'stroke': '#ddd' })
+    svg.addStyle('.axis', { 'stroke-width': '1px', 'stroke': 'black', 'opacity': '0.1' })
     svg.addStyle('.series-label', { 'font-size': '16px', 'dominant-baseline': 'middle', 'text-anchor': 'start', 'color': 'currentColor' })
     svg.addStyle('.y-axis-label', { 'font-size': '16px', 'dominant-baseline': 'middle', 'text-anchor': 'end' })
 
@@ -85,6 +85,7 @@ def draw_year_line(svg, data, colour, scale_y, year, this_year):
 
     svg.add('polyline', { 'points': ' '.join(map(str, points)), 'class': 'plot-line', 'color': colour })
     svg.add('text', { 'x': SVG_WIDTH - MARGIN_X2 + 5, 'y': scale_y(total_distance), 'class': 'series-label', 'color': colour }, year)
+
 
 def draw_chart(data, filename):
     svg = get_svg({ 'width': SVG_WIDTH, 'height': SVG_HEIGHT })

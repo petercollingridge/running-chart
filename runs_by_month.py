@@ -5,8 +5,8 @@ from draw_svg import SVG
 
 SVG_WIDTH = 1200
 SVG_HEIGHT = 800
-MARGIN_X1 = 30
-MARGIN_X2 = 10
+MARGIN_X1 = 50
+MARGIN_X2 = 60
 MARGIN_Y1 = 10
 MARGIN_Y2 = 40
 MIN_PACE = 4.5
@@ -16,14 +16,12 @@ SCALE_DIST = 0.2
 
 def get_svg(chart_params):
     """ Return an SVG object with some default styles applied. """
-    svg = SVG({
-        'viewBox': f"0 0 {chart_params['width']} {chart_params['height']}"
-    })
+    svg = SVG({'viewBox': f"0 0 {chart_params['width']} {chart_params['height']}"})
     svg.addStyle('text', { 'font-family': 'Arial', 'text-anchor': 'middle' })
     svg.addStyle('.plot-line', { 'fill': 'none', 'stroke-width': '3px', 'opacity': '0.8', 'stroke': 'currentColor' })
     svg.addStyle('.plot-area', { 'fill': 'currentColor', 'opacity': '0.25' })
     svg.addStyle('.plot-point', { 'fill-opacity': '0.8', 'fill': 'currentColor', 'stroke': 'white', 'stroke-width': '1px' })
-    svg.addStyle('.axis', { 'stroke-width': '1px', 'stroke': '#ddd' })
+    svg.addStyle('.axis', { 'stroke-width': '1px', 'stroke': 'black', 'opacity': '0.15' })
     svg.addStyle('.series-label', { 'font-size': '16px', 'dominant-baseline': 'middle', 'text-anchor': 'start' })
     svg.addStyle('.y-axis-label', { 'font-size': '16px', 'dominant-baseline': 'middle', 'text-anchor': 'end' })
 

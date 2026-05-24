@@ -18,7 +18,7 @@ def get_svg(chart_params):
         'viewBox': f"0 0 {chart_params['width']} {chart_params['height']}"
     })
     svg.addStyle('text', { 'font-family': 'Arial', 'text-anchor': 'middle' })
-    svg.addStyle('.axis', { 'stroke-width': '1px', 'stroke': '#ddd' })
+    svg.addStyle('.axis', { 'stroke-width': '1px', 'stroke': 'black', 'opacity': '0.1' })
     svg.addStyle('.axis-label', { 'font-size': '24px', 'dominant-baseline': 'middle' })
     svg.addStyle('.y-axis-label', { 'font-size': '16px', 'dominant-baseline': 'middle', 'text-anchor': 'end' })
 

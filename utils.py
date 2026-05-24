@@ -94,3 +94,17 @@ def get_runs_by_year(folder = 'data'):
             filepath = os.path.join(folder, filename)
             runs_by_year[year] = read_data(filepath)
     return runs_by_year
+
+
+def get_all_runs(folder = 'data'):
+    """ Return a list of all runs as dicts. """
+    all_runs = []
+    for filename in os.listdir(folder):
+        if filename.endswith('.txt'):
+            filepath = os.path.join(folder, filename)
+            year = filename[:-4]
+            data = read_data(filepath)
+            for run in data:
+                run['year'] = year
+            all_runs.extend(data)
+    return all_runs

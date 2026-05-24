@@ -3,13 +3,15 @@ from running_chart import draw_chart as draw_running_chart
 from stacked_run_chart import draw_stacked_runs
 from runs_by_month import draw_runs_by_month, draw_year_line
 from runs_over_the_year import draw_chart as draw_runs_over_year
+from runs_by_distance import draw_runs_by_distance
 from utils import get_runs_by_year
 
 if __name__ == '__main__':
     runs_by_year = get_runs_by_year()
-    year = 2025
+    year = 2026
 
-    draw_running_chart(runs_by_year, year, os.path.join("images", f"Running chart {year}.svg"))
+    draw_running_chart(runs_by_year, year, os.path.join("images", f"Running {year}.svg"))
     draw_stacked_runs(runs_by_year, os.path.join("images", "Stacked run chart.svg"))
     draw_runs_over_year(runs_by_year, os.path.join("images", "Runs by year.svg"))
     draw_runs_by_month(runs_by_year, os.path.join("images", "Runs by month line chart.svg"), draw_year_line)
+    draw_runs_by_distance(runs_by_year, os.path.join("images", "Runs by distance.svg"))
