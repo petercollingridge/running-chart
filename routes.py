@@ -52,9 +52,9 @@ def plot_route(runs):
 
     height = scale * (max_lat - min_lat) + margin * 2
     svg = SVG({ 'width': '100%', 'viewBox': f"0 0 {width} {height}" })
-    svg.addStyle('.route', { 'fill': 'none', 'stroke': '#2d7d7a', 'stroke-width': 2, 'opacity': 0.25 })
+    svg.addStyle('.route', { 'fill': 'none', 'stroke': '#2d7d7a', 'stroke-width': 2, 'opacity': 0.05 })
 
-    svg.add('rect', { 'x': 0, 'y': 0, 'width': width, 'height': height, 'fill': '#f0f0f0' })
+    # svg.add('rect', { 'x': 0, 'y': 0, 'width': width, 'height': height, 'fill': '#f0f0f0' })
 
     for run in runs.values():
         points = " ".join(f"{scale_x(lon)},{scale_y(lat)}" for lat, lon in run)
@@ -67,9 +67,10 @@ def main(folder):
     runs = {}
     for filename in os.listdir(folder):
         if filename.endswith('.gpx'):
-            filepath = os.path.join(folder, filename)
-            data = get_data(filepath)
-            runs[filename] = data
+            if filename.startswith('2026'):
+                filepath = os.path.join(folder, filename)
+                data = get_data(filepath)
+                runs[filename] = data
 
     plot_route(runs)
 
