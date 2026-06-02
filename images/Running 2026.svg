@@ -42,7 +42,7 @@
   </style>
 
     <text x="912.0" y="36" class="title">2026</text>
-    <text x="912.0" y="72" class="subtitle">64 runs | 448 km | 35hrs 29 mins | 4:45</text>
+    <text x="912.0" y="72" class="subtitle">65 runs | 456 km | 36hrs 4 mins | 4:45</text>
     <rect class="month-1" x="64" y="256" width="31" height="31"/>
     <rect class="month-1" x="64" y="288" width="31" height="31"/>
     <rect class="month-1" x="64" y="320" width="31" height="31"/>
@@ -424,6 +424,7 @@
     <circle fill="rgb(11, 186, 45)" cx="720.0" cy="336.0" r="26.816000000000003"/>
     <circle fill="rgb(219, 235, 0)" cx="112.0" cy="336.0" r="26.016000000000002"/>
     <circle fill="rgb(152, 224, 0)" cx="752.0" cy="368.0" r="24.064"/>
+    <circle fill="rgb(7, 190, 31)" cx="784.0" cy="208.0" r="23.744"/>
     <circle fill="rgb(51, 208, 0)" cx="496.0" cy="304.0" r="23.264"/>
     <circle fill="rgb(225, 236, 0)" cx="528.0" cy="272.0" r="21.119999999999997"/>
     <circle fill="rgb(36, 152, 153)" cx="720.0" cy="272.0" r="18.656"/>
@@ -495,14 +496,15 @@
         <text x="688.0" y="400.0">4</text>
         <text x="720.0" y="400.0">3</text>
         <text x="752.0" y="400.0">2</text>
+        <text x="784.0" y="400.0">1</text>
         <text x="1776.0" y="336.0">11</text>
         <text x="1776.0" y="176.0">10</text>
         <text x="1776.0" y="240.0">11</text>
         <text x="1776.0" y="304.0">8</text>
         <text x="1776.0" y="368.0">8</text>
-        <text x="1776.0" y="208.0">8</text>
+        <text x="1776.0" y="208.0">9</text>
         <text x="1776.0" y="272.0">8</text>
-        <text x="1776.0" y="400.0">64</text>
+        <text x="1776.0" y="400.0">65</text>
     </g>
     <g class="axis-label">
         <text x="48.0" y="176.0">M</text>
@@ -536,6 +538,7 @@
         </g>
         <g transform="translate(848.0 128)">
             <text>Jun</text>
+            <text y="22.4" class="count">1 runs | 7 km</text>
         </g>
         <g transform="translate(992.0 128)">
             <text>Jul</text>

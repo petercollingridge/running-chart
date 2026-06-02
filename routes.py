@@ -38,27 +38,46 @@ def get_coords_and_time(file_path):
 
     for trk in root.findall("gpx:trk", ns):
         for pt in trk.findall(".//gpx:trkpt", ns):
-            lat = float(pt.get("lat"))
             lon = float(pt.get("lon"))
+            lat = float(pt.get("lat"))
+
+            # Filter out points that are too close together to reduce noise
+            if last_lon is not None and last_lat is not None:
+                d_lon = lon - last_lon
+                d_lat = lat - last_lat
+                if d_lon * d_lon + d_lat * d_lat < 0.00000001:
+                    continue
+
             time_string = pt.find("gpx:time", ns)
             if time_string is not None and time_string.text:
                 time = datetime.fromisoformat(time_string.text.replace("Z", "+00:00"))
             else:
                 time = None
 
-            # Filter out points that are too close together to reduce noise
-            if last_lat is not None and last_lon is not None:
-                d_lat = lat - last_lat
-                d_lon = lon - last_lon
-                if d_lat * d_lat + d_lon * d_lon < 0.00000001:
-                    continue
-
             d_time = (time is not None and start_time is not None) and (time - start_time).total_seconds() or 0
-            data.append((lat, lon, int(d_time)))
-            last_lat = lat
+            data.append((lon, lat, int(d_time)))
             last_lon = lon
+            last_lat = lat
 
     return data
+
+
+def get_extent_for_run(run_data):
+    """Get the extent of the data as (min_lon, max_lon, min_lat, max_lat)."""
+    min_lon = min(d[0] for d in run_data)
+    max_lon = max(d[0] for d in run_data)
+    min_lat = min(d[1] for d in run_data)
+    max_lat = max(d[1] for d in run_data)
+    return min_lon, max_lon, min_lat, max_lat
+
+
+def get_extent_for_runs(runs):
+    """Get the extent of multiple runs as (min_lon, max_lon, min_lat, max_lat)."""
+    min_lon = min(get_extent_for_run(run)[0] for run in runs.values())
+    max_lon = max(get_extent_for_run(run)[1] for run in runs.values())
+    min_lat = min(get_extent_for_run(run)[2] for run in runs.values())
+    max_lat = max(get_extent_for_run(run)[3] for run in runs.values())
+    return min_lon, max_lon, min_lat, max_lat
 
 
 def get_data_for_runs(folder, get_data_func):
@@ -83,32 +102,21 @@ def extract_to_json(folder):
 
     data = get_data_for_runs(folder, get_coords_and_time)
 
+    d2 = {"run": data["2026-06-02.gpx"]}  # For testing, only include one run
+
+    min_x, max_x, min_y, max_y = get_extent_for_runs(d2)
+    scale = 800 / (max_x - min_x)
+    print(min_x, max_x, min_y, max_y, scale)
+
     # Convert list of list to list of dicts
     output_data = {}
-    for filename, run_data in data.items():
+    for filename, run_data in d2.items():
         date = filename.removesuffix('.gpx')
-        output_data[date] = [{'x': d[0], 'y': d[1], 't': d[2]} for d in run_data]
+        # output_data[date] = run_data
+        output_data[date] = [[round((d[0] - min_x) * scale, 1), round((max_y - d[1]) * scale, 1), d[2]] for d in run_data]
 
     with open(os.path.join(folder, "summary.json"), "w") as f:
         json.dump(output_data, f, indent=2)
-
-
-def get_extent_for_run(run_data):
-    """Get the extent of the data as (min_lat, max_lat, min_lon, max_lon)."""
-    min_lat = min(d[0] for d in run_data)
-    max_lat = max(d[0] for d in run_data)
-    min_lon = min(d[1] for d in run_data)
-    max_lon = max(d[1] for d in run_data)
-    return min_lat, max_lat, min_lon, max_lon
-
-
-def get_extent_for_runs(runs):
-    """Get the extent of multiple runs as (min_lat, max_lat, min_lon, max_lon)."""
-    min_lat = min(get_extent_for_run(run)[0] for run in runs.values())
-    max_lat = max(get_extent_for_run(run)[1] for run in runs.values())
-    min_lon = min(get_extent_for_run(run)[2] for run in runs.values())
-    max_lon = max(get_extent_for_run(run)[3] for run in runs.values())
-    return min_lat, max_lat, min_lon, max_lon
 
 
 def plot_route(runs):
@@ -117,6 +125,7 @@ def plot_route(runs):
     margin = 10
 
     min_lat, max_lat, min_lon, max_lon = get_extent_for_runs(runs)
+    print(min_lat, max_lat, min_lon, max_lon)
     scale = (width - margin * 2) / (max_lon - min_lon)
 
     def scale_x(lon):
@@ -143,7 +152,6 @@ def main(folder):
     # plot_route(runs)
 
     # runs = get_data_for_runs(folder, get_coords_and_time)
-    # print(list(runs.values())[0])
     # plot_route(runs)
 
     extract_to_json(folder)
