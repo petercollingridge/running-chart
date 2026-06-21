@@ -3,6 +3,7 @@ import os
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from draw_svg import SVG
+from utils import get_runs_by_year, MONTHS
 
 # Namespace for GPX files
 ns = {"gpx": "http://www.topografix.com/GPX/1/1"}
@@ -90,41 +91,40 @@ def get_data_for_runs(folder, get_data_func):
     for filename in os.listdir(folder):
         if filename.endswith('.gpx'):
             if filename.startswith('2026'):
-                print(f"Processing {filename}...")
+                # print(f"Processing {filename}...")
                 filepath = os.path.join(folder, filename)
                 data = get_data_func(filepath)
                 runs[filename] = data
     return runs
 
 
-def extract_to_json(folder):
+def extract_to_json(data, filename="summary.json", folder="data"):
     """Extract run data from gpx files and save it as json."""
 
-    data = get_data_for_runs(folder, get_coords_and_time)
-
-    d2 = {"run": data["2026-06-02.gpx"]}  # For testing, only include one run
-
-    min_x, max_x, min_y, max_y = get_extent_for_runs(d2)
+    min_x, max_x, min_y, max_y = get_extent_for_runs(data)
     scale = 800 / (max_x - min_x)
-    print(min_x, max_x, min_y, max_y, scale)
 
     # Convert list of list to list of dicts
     output_data = {}
-    for filename, run_data in d2.items():
+    for filename, run_data in data.items():
         date = filename.removesuffix('.gpx')
-        # output_data[date] = run_data
         output_data[date] = [[round((d[0] - min_x) * scale, 1), round((max_y - d[1]) * scale, 1), d[2]] for d in run_data]
 
-    with open(os.path.join(folder, "summary.json"), "w") as f:
-        json.dump(output_data, f, indent=2)
+    with open(os.path.join(folder, filename), "w") as f:
+        f.write("{\n")
+        for run in sorted(output_data.keys()):
+            f.write(f'  "{run}": {json.dumps(output_data[run])}')
+            if run != sorted(output_data.keys())[-1]:
+                f.write(",\n")
+        f.write("\n}\n")
 
 
-def plot_route(runs):
+def plot_route(runs, filename='route.svg'):
     """Plot the route using matplotlib."""
     width = 800
     margin = 10
 
-    min_lat, max_lat, min_lon, max_lon = get_extent_for_runs(runs)
+    min_lon, max_lon , min_lat, max_lat= get_extent_for_runs(runs)
     print(min_lat, max_lat, min_lon, max_lon)
     scale = (width - margin * 2) / (max_lon - min_lon)
 
@@ -141,20 +141,58 @@ def plot_route(runs):
     # svg.add('rect', { 'x': 0, 'y': 0, 'width': width, 'height': height, 'fill': '#f0f0f0' })
 
     for run in runs.values():
-        points = " ".join(f"{scale_x(d[1])},{scale_y(d[0])}" for d in run)
+        points = " ".join(f"{scale_x(d[0])},{scale_y(d[1])}" for d in run)
         svg.add('polyline', { 'points': points, 'class': 'route' })
 
-    svg.write("route.svg")
+    filename = os.path.join("images", filename)
+    svg.write(filename)
+
+
+def categorise_runs(gpx_folder):
+    """Categorise runs based on their duration."""
+    
+    run_summaries = get_runs_by_year()
+    gpx_data = get_data_for_runs(gpx_folder, get_coords_and_time)
+    
+    def is_5k_run(run, gpx_for_run):
+        """Return True if the run is my standard 5k run."""
+        # if run['distance'] <= 6:
+        #     print(max(d[0] for d in gpx_for_run))
+        return run['distance'] <= 6 and max(d[0] for d in gpx_for_run) < -1.527
+
+    filtered_runs = {}
+    for filename in gpx_data.keys():
+        date = filename.removesuffix('.gpx')
+        gpx_for_run = gpx_data[filename]
+        year, month, day = date.split('-')
+
+        if year in run_summaries:
+            run_summary = run_summaries[year]
+            month = MONTHS[int(month) - 1]
+            day = day.lstrip('0')  # Remove leading zero from day
+            run = next((r for r in run_summary if r['day'] == day and r['month'] == month), None)
+
+            if run:
+                if is_5k_run(run, gpx_for_run):
+                    filtered_runs[filename] = gpx_for_run
+            else:
+                print(f"Warning: No run data found for {day} {month} {year}.")
+        else:
+            print(f"Warning: No run data found for year {year}.")
+
+    return filtered_runs
 
 
 def main(folder):
-    # runs = get_data_for_runs(folder, get_coords)
-    # plot_route(runs)
-
     # runs = get_data_for_runs(folder, get_coords_and_time)
     # plot_route(runs)
+    # extract_to_json(data)
 
-    extract_to_json(folder)
+    filtered_runs = categorise_runs(folder)
+    print(f"Found {len(filtered_runs)} runs that match the criteria.")
+    plot_route(filtered_runs, filename='5k_routes.svg')
+    extract_to_json(filtered_runs, filename="5k_routes.json")
+
 
 
 if __name__ == "__main__":

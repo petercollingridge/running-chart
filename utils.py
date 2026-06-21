@@ -19,6 +19,7 @@ colours = (
     (4, (0, 0, 120)),     # Dark blue
 )
 
+MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 def get_pace_colour(x):
     for i, colour in enumerate(colours):
