@@ -42,7 +42,7 @@
   </style>
 
     <text x="912.0" y="36" class="title">2026</text>
-    <text x="912.0" y="72" class="subtitle">74 runs | 545 km | 43hrs 26 mins | 4:47</text>
+    <text x="912.0" y="72" class="subtitle">83 runs | 619 km | 49hrs 37 mins | 4:48</text>
     <rect class="month-1" x="64" y="256" width="31" height="31"/>
     <rect class="month-1" x="64" y="288" width="31" height="31"/>
     <rect class="month-1" x="64" y="320" width="31" height="31"/>
@@ -411,10 +411,13 @@
     <circle fill="rgb(222, 236, 0)" cx="848.0" cy="336.0" r="61.152"/>
     <circle fill="rgb(241, 197, 0)" cx="784.0" cy="368.0" r="55.263999999999996"/>
     <circle fill="rgb(122, 220, 0)" cx="560.0" cy="368.0" r="52.25599999999999"/>
+    <circle fill="rgb(230, 146, 0)" cx="880.0" cy="368.0" r="51.839999999999996"/>
     <circle fill="rgb(246, 223, 0)" cx="656.0" cy="336.0" r="48.8928"/>
     <circle fill="rgb(248, 228, 0)" cx="528.0" cy="336.0" r="48.512"/>
+    <circle fill="rgb(226, 124, 0)" cx="976.0" cy="368.0" r="48.512"/>
     <circle fill="rgb(235, 168, 0)" cx="816.0" cy="368.0" r="48.352"/>
     <circle fill="rgb(247, 224, 0)" cx="592.0" cy="336.0" r="45.888"/>
+    <circle fill="rgb(217, 235, 0)" cx="912.0" cy="336.0" r="45.504000000000005"/>
     <circle fill="rgb(246, 221, 0)" cx="432.0" cy="368.0" r="41.664"/>
     <circle fill="rgb(143, 223, 0)" cx="688.0" cy="368.0" r="39.392"/>
     <circle fill="rgb(1, 199, 5)" cx="624.0" cy="368.0" r="37.312"/>
@@ -441,6 +444,7 @@
     <circle fill="rgb(20, 203, 0)" cx="560.0" cy="240.0" r="18.56"/>
     <circle fill="rgb(47, 93, 225)" cx="720.0" cy="208.0" r="18.56"/>
     <circle fill="rgb(34, 154, 147)" cx="848.0" cy="208.0" r="18.56"/>
+    <circle fill="rgb(9, 188, 38)" cx="976.0" cy="304.0" r="18.56"/>
     <circle fill="rgb(36, 152, 153)" cx="368.0" cy="240.0" r="18.528"/>
     <circle fill="rgb(46, 139, 194)" cx="560.0" cy="176.0" r="18.528"/>
     <circle fill="rgb(22, 204, 0)" cx="528.0" cy="208.0" r="18.496000000000002"/>
@@ -448,14 +452,18 @@
     <circle fill="rgb(27, 164, 116)" cx="592.0" cy="208.0" r="18.496000000000002"/>
     <circle fill="rgb(47, 138, 198)" cx="624.0" cy="240.0" r="18.496000000000002"/>
     <circle fill="rgb(44, 88, 219)" cx="688.0" cy="176.0" r="18.496000000000002"/>
+    <circle fill="rgb(36, 152, 154)" cx="944.0" cy="176.0" r="18.496000000000002"/>
     <circle fill="rgb(4, 194, 19)" cx="784.0" cy="272.0" r="18.464"/>
     <circle fill="rgb(41, 145, 175)" cx="816.0" cy="304.0" r="18.464"/>
     <circle fill="rgb(2, 198, 8)" cx="400.0" cy="208.0" r="18.432"/>
+    <circle fill="rgb(55, 111, 245)" cx="912.0" cy="208.0" r="18.432"/>
+    <circle fill="rgb(1, 200, 0)" cx="976.0" cy="176.0" r="18.432"/>
     <circle fill="rgb(3, 200, 0)" cx="624.0" cy="176.0" r="18.336000000000002"/>
     <circle fill="rgb(44, 141, 188)" cx="368.0" cy="176.0" r="18.304"/>
     <circle fill="rgb(50, 133, 212)" cx="496.0" cy="176.0" r="18.272"/>
     <circle fill="rgb(41, 82, 213)" cx="656.0" cy="272.0" r="18.112000000000002"/>
     <circle fill="rgb(25, 167, 106)" cx="464.0" cy="272.0" r="17.952"/>
+    <circle fill="rgb(39, 149, 164)" cx="880.0" cy="176.0" r="17.919999999999998"/>
     <circle fill="rgb(34, 154, 146)" cx="624.0" cy="304.0" r="17.791999999999998"/>
     <circle fill="rgb(222, 108, 0)" cx="80.0" cy="336.0" r="17.28"/>
     <circle fill="rgb(27, 204, 0)" cx="752.0" cy="304.0" r="16.736"/>
@@ -482,6 +490,7 @@
     <circle fill="rgb(29, 161, 124)" cx="336.0" cy="208.0" r="16.352"/>
     <circle fill="rgb(27, 163, 116)" cx="592.0" cy="272.0" r="16.256"/>
     <circle fill="rgb(33, 67, 195)" cx="656.0" cy="208.0" r="16.16"/>
+    <path d="M912.0 272.0l0.0 0.0M912.0 272.0l0.0 -0.0" class="cross"/>
     <g class="count">
         <text x="80.0" y="400.0">1</text>
         <text x="112.0" y="400.0">3</text>
@@ -508,14 +517,18 @@
         <text x="784.0" y="400.0">3</text>
         <text x="816.0" y="400.0">3</text>
         <text x="848.0" y="400.0">3</text>
-        <text x="1776.0" y="336.0">12</text>
-        <text x="1776.0" y="176.0">10</text>
+        <text x="880.0" y="400.0">2</text>
+        <text x="912.0" y="400.0">3</text>
+        <text x="944.0" y="400.0">1</text>
+        <text x="976.0" y="400.0">3</text>
+        <text x="1776.0" y="336.0">13</text>
+        <text x="1776.0" y="176.0">13</text>
         <text x="1776.0" y="240.0">11</text>
-        <text x="1776.0" y="304.0">9</text>
-        <text x="1776.0" y="368.0">10</text>
-        <text x="1776.0" y="208.0">12</text>
-        <text x="1776.0" y="272.0">10</text>
-        <text x="1776.0" y="400.0">74</text>
+        <text x="1776.0" y="304.0">10</text>
+        <text x="1776.0" y="368.0">12</text>
+        <text x="1776.0" y="208.0">13</text>
+        <text x="1776.0" y="272.0">11</text>
+        <text x="1776.0" y="400.0">83</text>
     </g>
     <g class="axis-label">
         <text x="48.0" y="176.0">M</text>
@@ -549,10 +562,11 @@
         </g>
         <g transform="translate(848.0 128)">
             <text>Jun</text>
-            <text y="22.4" class="count">9 runs | 92 km</text>
+            <text y="22.4" class="count">12 runs | 119 km</text>
         </g>
         <g transform="translate(992.0 128)">
             <text>Jul</text>
+            <text y="22.4" class="count">6 runs | 47 km</text>
         </g>
         <g transform="translate(1136.0 128)">
             <text>Aug</text>
@@ -701,11 +715,11 @@
     <rect fill="rgb(5, 193, 22)" x="436" y="500.304" width="1.1" height="32"/>
     <rect fill="rgb(7, 191, 28)" x="437" y="500.304" width="1.1" height="32"/>
     <rect fill="rgb(8, 189, 34)" x="438" y="500.304" width="1.1" height="32"/>
+    <text x="438" y="548.304">4:43</text>
+    <text x="438" y="564.304">Med</text>
     <rect fill="rgb(9, 187, 40)" x="439" y="500.304" width="1.1" height="32"/>
     <rect fill="rgb(11, 185, 46)" x="440" y="500.304" width="1.1" height="32"/>
     <rect fill="rgb(12, 184, 52)" x="441" y="500.304" width="1.1" height="32"/>
-    <text x="441" y="548.304">4:42</text>
-    <text x="441" y="564.304">Med</text>
     <rect fill="rgb(14, 182, 58)" x="442" y="500.304" width="1.1" height="32"/>
     <rect fill="rgb(15, 180, 64)" x="443" y="500.304" width="1.1" height="32"/>
     <rect fill="rgb(17, 178, 70)" x="444" y="500.304" width="1.1" height="32"/>
