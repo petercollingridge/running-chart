@@ -8,6 +8,17 @@ from utils import get_runs_by_year, MONTHS
 # Namespace for GPX files
 ns = {"gpx": "http://www.topografix.com/GPX/1/1"}
 
+villages = {
+    "Leafield": (51.8375, -1.54),
+    "Ramsden": (51.8362, -1.486),
+    "Finstock": (51.8425, -1.485),
+    "Crawley": (51.8105, -1.515),
+    "Hailey": (51.8095, -1.4918),
+    "Minster Lovell": (51.799, -1.5465),
+    "Shipton-under-Wychwood": (51.8585, -1.594),
+    "Ascot-under-Wychwood": (51.867, -1.563),
+}
+
 
 def get_coords(file_path):
     """Open a gpx file and extract the longitude and latitude data."""
@@ -98,7 +109,7 @@ def get_data_for_runs(folder, get_data_func):
     return runs
 
 
-def extract_to_json(data, filename="summary.json", folder="data"):
+def extract_to_json(data, output_filename="summary.json", folder="data"):
     """Extract run data from gpx files and save it as json."""
 
     min_x, max_x, min_y, max_y = get_extent_for_runs(data)
@@ -110,13 +121,21 @@ def extract_to_json(data, filename="summary.json", folder="data"):
         date = filename.removesuffix('.gpx')
         output_data[date] = [[round((d[0] - min_x) * scale, 1), round((max_y - d[1]) * scale, 1), d[2]] for d in run_data]
 
-    with open(os.path.join(folder, filename), "w") as f:
+    with open(os.path.join(folder, output_filename), "w") as f:
         f.write("{\n")
         for run in sorted(output_data.keys()):
             f.write(f'  "{run}": {json.dumps(output_data[run])}')
             if run != sorted(output_data.keys())[-1]:
                 f.write(",\n")
         f.write("\n}\n")
+
+
+def write_village_names(svg, scale_x, scale_y):
+    """Write village names to the svg."""
+    for village, (lat, lon) in villages.items():
+        x = scale_x(lon)
+        y = scale_y(lat)
+        svg.add('text', {'x': x, 'y': y, 'class': 'village-name'}, village)
 
 
 def plot_route(runs, filename='route.svg'):
@@ -136,13 +155,26 @@ def plot_route(runs, filename='route.svg'):
 
     height = scale * (max_lat - min_lat) + margin * 2
     svg = SVG({ 'width': '100%', 'viewBox': f"0 0 {width} {height}" })
-    svg.addStyle('.route', { 'fill': 'none', 'stroke': '#2d7d7a', 'stroke-width': 2, 'opacity': 0.05 })
+    svg.addStyle('.route', { 'fill': 'none', 'stroke': '#2d7d7a', 'stroke-width': 2, 'opacity': 0.1 })
+    svg.addStyle('.village-name', { 'fill': '#112', 'font-size': '10px', 'text-anchor': 'start', 'dominant-baseline': 'baseline' })
+    svg.addStyle('.distance-circle', { 'fill': 'none', 'stroke': '#e8e8f0', 'stroke-width': 0.5, 'stroke-dasharray': '4 2' })
 
-    # svg.add('rect', { 'x': 0, 'y': 0, 'width': width, 'height': height, 'fill': '#f0f0f0' })
+    svg.add('rect', { 'x': 0, 'y': 0, 'width': width, 'height': height, 'fill': '#f0f0f0' })
+
+    start_x = scale_x(-1.5393660)
+    start_y = scale_y(51.8343140)
+    radius_1k = scale_x(-1.5393660) - scale_x(-1.5539033)
+    # svg.add('circle', { 'cx': start_x, 'cy': start_y, 'r': radius_1k, 'class': 'distance-circle' })
+    # svg.add('circle', { 'cx': start_x, 'cy': start_y, 'r': radius_1k * 2, 'class': 'distance-circle' })
+    # svg.add('circle', { 'cx': start_x, 'cy': start_y, 'r': radius_1k * 3, 'class': 'distance-circle' })
+    # svg.add('circle', { 'cx': start_x, 'cy': start_y, 'r': radius_1k * 4, 'class': 'distance-circle' })
+    # svg.add('circle', { 'cx': start_x, 'cy': start_y, 'r': radius_1k * 5, 'class': 'distance-circle' })
 
     for run in runs.values():
         points = " ".join(f"{scale_x(d[0])},{scale_y(d[1])}" for d in run)
         svg.add('polyline', { 'points': points, 'class': 'route' })
+
+    write_village_names(svg, scale_x, scale_y)
 
     filename = os.path.join("images", filename)
     svg.write(filename)
@@ -184,14 +216,14 @@ def categorise_runs(gpx_folder):
 
 
 def main(folder):
-    # runs = get_data_for_runs(folder, get_coords_and_time)
-    # plot_route(runs)
+    runs = get_data_for_runs(folder, get_coords_and_time)
+    plot_route(runs)
     # extract_to_json(data)
 
-    filtered_runs = categorise_runs(folder)
-    print(f"Found {len(filtered_runs)} runs that match the criteria.")
-    plot_route(filtered_runs, filename='5k_routes.svg')
-    extract_to_json(filtered_runs, filename="5k_routes.json")
+    # filtered_runs = categorise_runs(folder)
+    # print(f"Found {len(filtered_runs)} runs that match the criteria.")
+    # plot_route(filtered_runs, filename='5k_routes.svg')
+    # extract_to_json(filtered_runs, output_filename="5k_routes.json")
 
 
 
