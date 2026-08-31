@@ -602,7 +602,11 @@
     <rect fill="rgb(27, 163, 117)" x="650.0" y="319.30000000000115" width="50" height="7.3"/>
     <rect fill="rgb(46, 139, 194)" x="650.0" y="312.00000000000114" width="50" height="7.3"/>
     <rect fill="rgb(41, 82, 212)" x="650.0" y="304.7000000000011" width="50" height="7.3"/>
-    <text x="675.0" y="296.7000000000011" class="x-axis-label">4:37</text>
+    <rect fill="rgb(27, 163, 117)" x="650.0" y="297.4000000000011" width="50" height="7.3"/>
+    <rect fill="rgb(178, 228, 0)" x="650.0" y="290.1000000000011" width="50" height="7.3"/>
+    <rect fill="rgb(52, 131, 219)" x="650.0" y="282.8000000000011" width="50" height="7.3"/>
+    <rect fill="rgb(14, 181, 60)" x="650.0" y="275.5000000000011" width="50" height="7.3"/>
+    <text x="675.0" y="267.5000000000011" class="x-axis-label">4:37</text>
     <rect fill="rgb(219, 235, 0)" x="1000.0" y="742.7" width="50" height="7.3"/>
     <rect fill="rgb(51, 208, 0)" x="1000.0" y="735.4000000000001" width="50" height="7.3"/>
     <rect fill="rgb(243, 239, 0)" x="1000.0" y="728.1000000000001" width="50" height="7.3"/>
@@ -634,5 +638,7 @@
     <rect fill="rgb(221, 235, 0)" x="1350.0" y="611.3000000000009" width="50" height="7.3"/>
     <rect fill="rgb(151, 224, 0)" x="1350.0" y="604.0000000000009" width="50" height="7.3"/>
     <rect fill="rgb(243, 206, 0)" x="1350.0" y="596.700000000001" width="50" height="7.3"/>
-    <text x="1375.0" y="588.700000000001" class="x-axis-label">4:59</text>
+    <rect fill="rgb(247, 226, 0)" x="1350.0" y="589.400000000001" width="50" height="7.3"/>
+    <rect fill="rgb(40, 146, 172)" x="1350.0" y="582.100000000001" width="50" height="7.3"/>
+    <text x="1375.0" y="574.100000000001" class="x-axis-label">4:58</text>
 </svg>

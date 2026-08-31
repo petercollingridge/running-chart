@@ -11,12 +11,13 @@ ns = {"gpx": "http://www.topografix.com/GPX/1/1"}
 villages = {
     "Leafield": (51.8375, -1.54),
     "Ramsden": (51.8362, -1.486),
-    "Finstock": (51.8425, -1.485),
+    "Finstock": (51.8405, -1.483),
     "Crawley": (51.8105, -1.515),
     "Hailey": (51.8095, -1.4918),
     "Minster Lovell": (51.799, -1.5465),
     "Shipton-under-Wychwood": (51.8585, -1.594),
     "Ascot-under-Wychwood": (51.867, -1.563),
+    "New Yatt": (51.813, -1.465),
 }
 
 
