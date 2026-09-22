@@ -606,7 +606,14 @@
     <rect fill="rgb(178, 228, 0)" x="650.0" y="290.1000000000011" width="50" height="7.3"/>
     <rect fill="rgb(52, 131, 219)" x="650.0" y="282.8000000000011" width="50" height="7.3"/>
     <rect fill="rgb(14, 181, 60)" x="650.0" y="275.5000000000011" width="50" height="7.3"/>
-    <text x="675.0" y="267.5000000000011" class="x-axis-label">4:37</text>
+    <rect fill="rgb(48, 208, 0)" x="650.0" y="268.20000000000107" width="50" height="7.3"/>
+    <rect fill="rgb(39, 148, 167)" x="650.0" y="260.90000000000106" width="50" height="7.3"/>
+    <rect fill="rgb(47, 94, 225)" x="650.0" y="253.60000000000105" width="50" height="7.3"/>
+    <rect fill="rgb(34, 68, 197)" x="650.0" y="246.30000000000103" width="50" height="7.3"/>
+    <rect fill="rgb(52, 103, 236)" x="650.0" y="239.00000000000102" width="50" height="7.3"/>
+    <rect fill="rgb(11, 186, 45)" x="650.0" y="231.700000000001" width="50" height="7.3"/>
+    <rect fill="rgb(50, 101, 233)" x="650.0" y="224.400000000001" width="50" height="7.3"/>
+    <text x="675.0" y="216.400000000001" class="x-axis-label">4:36</text>
     <rect fill="rgb(219, 235, 0)" x="1000.0" y="742.7" width="50" height="7.3"/>
     <rect fill="rgb(51, 208, 0)" x="1000.0" y="735.4000000000001" width="50" height="7.3"/>
     <rect fill="rgb(243, 239, 0)" x="1000.0" y="728.1000000000001" width="50" height="7.3"/>
@@ -640,5 +647,8 @@
     <rect fill="rgb(243, 206, 0)" x="1350.0" y="596.700000000001" width="50" height="7.3"/>
     <rect fill="rgb(247, 226, 0)" x="1350.0" y="589.400000000001" width="50" height="7.3"/>
     <rect fill="rgb(40, 146, 172)" x="1350.0" y="582.100000000001" width="50" height="7.3"/>
-    <text x="1375.0" y="574.100000000001" class="x-axis-label">4:58</text>
+    <rect fill="rgb(250, 239, 0)" x="1350.0" y="574.8000000000011" width="50" height="7.3"/>
+    <rect fill="rgb(111, 218, 0)" x="1350.0" y="567.5000000000011" width="50" height="7.3"/>
+    <rect fill="rgb(119, 219, 0)" x="1350.0" y="560.2000000000012" width="50" height="7.3"/>
+    <text x="1375.0" y="552.2000000000012" class="x-axis-label">4:58</text>
 </svg>

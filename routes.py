@@ -1,12 +1,8 @@
 import json
 import os
-import xml.etree.ElementTree as ET
-from datetime import datetime
-from draw_svg import SVG
-from utils import get_runs_by_year, MONTHS
 
-# Namespace for GPX files
-ns = {"gpx": "http://www.topografix.com/GPX/1/1"}
+from draw_svg import SVG
+from utils import get_gpx_data, get_runs_by_year, get_coords_and_time, MONTHS
 
 villages = {
     "Leafield": (51.8375, -1.54),
@@ -18,96 +14,8 @@ villages = {
     "Shipton-under-Wychwood": (51.8585, -1.594),
     "Ascot-under-Wychwood": (51.867, -1.563),
     "New Yatt": (51.813, -1.465),
+    "Swinbrook": (51.804, -1.595),
 }
-
-
-def get_coords(file_path):
-    """Open a gpx file and extract the longitude and latitude data."""
-
-    tree = ET.parse(file_path)
-    root = tree.getroot()
-
-    data = []
-    for trk in root.findall("gpx:trk", ns):
-        for pt in trk.findall(".//gpx:trkpt", ns):
-            data.append((float(pt.get("lat")), float(pt.get("lon"))))
-
-    return data
-
-
-def get_coords_and_time(file_path):
-    """Open a gpx file and extract the longitude, latitude, and time data."""
-
-    tree = ET.parse(file_path)
-    root = tree.getroot()
-
-    metadata = root.findall("gpx:metadata", ns)
-    start_time_string = metadata[0].find("gpx:time", ns).text if metadata else None
-    start_time = datetime.fromisoformat(start_time_string.replace("Z", "+00:00")) if start_time_string else None
-
-    data = []
-    last_lat = None
-    last_lon = None
-
-    for trk in root.findall("gpx:trk", ns):
-        for pt in trk.findall(".//gpx:trkpt", ns):
-            lon = float(pt.get("lon"))
-            lat = float(pt.get("lat"))
-
-            # Filter out points that are too close together to reduce noise
-            if last_lon is not None and last_lat is not None:
-                d_lon = lon - last_lon
-                d_lat = lat - last_lat
-                if d_lon * d_lon + d_lat * d_lat < 0.00000001:
-                    continue
-
-            time_string = pt.find("gpx:time", ns)
-            if time_string is not None and time_string.text:
-                time = datetime.fromisoformat(time_string.text.replace("Z", "+00:00"))
-            else:
-                time = None
-
-            d_time = (time is not None and start_time is not None) and (time - start_time).total_seconds() or 0
-            data.append((lon, lat, int(d_time)))
-            last_lon = lon
-            last_lat = lat
-
-    return data
-
-
-def get_extent_for_run(run_data):
-    """Get the extent of the data as (min_lon, max_lon, min_lat, max_lat)."""
-    min_lon = min(d[0] for d in run_data)
-    max_lon = max(d[0] for d in run_data)
-    min_lat = min(d[1] for d in run_data)
-    max_lat = max(d[1] for d in run_data)
-    return min_lon, max_lon, min_lat, max_lat
-
-
-def get_extent_for_runs(runs):
-    """Get the extent of multiple runs as (min_lon, max_lon, min_lat, max_lat)."""
-    min_lon = min(get_extent_for_run(run)[0] for run in runs.values())
-    max_lon = max(get_extent_for_run(run)[1] for run in runs.values())
-    min_lat = min(get_extent_for_run(run)[2] for run in runs.values())
-    max_lat = max(get_extent_for_run(run)[3] for run in runs.values())
-    return min_lon, max_lon, min_lat, max_lat
-
-
-def get_data_for_runs(folder, get_data_func):
-    """
-    Get all run data from the specified folder.
-    Returns a dict mapping filename to the data returned by get_data_func.
-    """
-
-    runs = {}
-    for filename in os.listdir(folder):
-        if filename.endswith('.gpx'):
-            if filename.startswith('2026'):
-                # print(f"Processing {filename}...")
-                filepath = os.path.join(folder, filename)
-                data = get_data_func(filepath)
-                runs[filename] = data
-    return runs
 
 
 def extract_to_json(data, output_filename="summary.json", folder="data"):
@@ -217,7 +125,7 @@ def categorise_runs(gpx_folder):
 
 
 def main(folder):
-    runs = get_data_for_runs(folder, get_coords_and_time)
+    runs = get_gpx_data(folder, get_coords_and_time)
     plot_route(runs)
     # extract_to_json(data)
 
