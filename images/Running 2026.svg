@@ -42,7 +42,7 @@
   </style>
 
     <text x="912.0" y="36" class="title">2026</text>
-    <text x="912.0" y="72" class="subtitle">108 runs | 827 km | 66hrs 7 mins | 4:48</text>
+    <text x="912.0" y="72" class="subtitle">109 runs | 833 km | 66hrs 34 mins | 4:48</text>
     <rect class="month-1" x="64" y="256" width="31" height="31"/>
     <rect class="month-1" x="64" y="288" width="31" height="31"/>
     <rect class="month-1" x="64" y="320" width="31" height="31"/>
@@ -449,6 +449,7 @@
     <circle fill="rgb(60, 121, 253)" cx="496.0" cy="240.0" r="18.624000000000002"/>
     <circle fill="rgb(47, 94, 225)" cx="1232.0" cy="240.0" r="18.624000000000002"/>
     <circle fill="rgb(34, 68, 197)" cx="1232.0" cy="304.0" r="18.624000000000002"/>
+    <circle fill="rgb(44, 141, 189)" cx="1296.0" cy="240.0" r="18.624000000000002"/>
     <circle fill="rgb(43, 143, 181)" cx="432.0" cy="304.0" r="18.592"/>
     <circle fill="rgb(1, 199, 2)" cx="464.0" cy="208.0" r="18.592"/>
     <circle fill="rgb(55, 111, 244)" cx="688.0" cy="240.0" r="18.592"/>
@@ -555,15 +556,15 @@
         <text x="1200.0" y="400.0">3</text>
         <text x="1232.0" y="400.0">4</text>
         <text x="1264.0" y="400.0">3</text>
-        <text x="1296.0" y="400.0">1</text>
+        <text x="1296.0" y="400.0">2</text>
         <text x="1776.0" y="336.0">18</text>
         <text x="1776.0" y="176.0">17</text>
-        <text x="1776.0" y="240.0">12</text>
+        <text x="1776.0" y="240.0">13</text>
         <text x="1776.0" y="304.0">11</text>
         <text x="1776.0" y="368.0">15</text>
         <text x="1776.0" y="208.0">18</text>
         <text x="1776.0" y="272.0">17</text>
-        <text x="1776.0" y="400.0">108</text>
+        <text x="1776.0" y="400.0">109</text>
     </g>
     <g class="axis-label">
         <text x="48.0" y="176.0">M</text>
@@ -609,7 +610,7 @@
         </g>
         <g transform="translate(1280.0 128)">
             <text>Sep</text>
-            <text y="22.4" class="count">10 runs | 80 km</text>
+            <text y="22.4" class="count">11 runs | 85 km</text>
         </g>
         <g transform="translate(1408.0 128)">
             <text>Oct</text>
@@ -624,13 +625,13 @@
     <circle fill="rgb(140, 140, 140)" cx="85.16" cy="522.672" r="16.16"/>
     <text x="85.16" y="554.832">5.05</text>
     <text x="85.16" y="570.832">Min</text>
-    <circle fill="rgb(140, 140, 140)" cx="129.816" cy="520.336" r="18.496000000000002"/>
-    <text x="129.816" y="554.832">5.78</text>
-    <text x="129.816" y="570.832">Med</text>
-    <circle fill="rgb(140, 140, 140)" cx="222.728" cy="474.416" r="64.416"/>
-    <text x="222.728" y="554.832">20.13</text>
-    <text x="222.728" y="570.832">Max</text>
-    <text x="178.072" y="602.832" font-size="24px">Distance (km)</text>
+    <circle fill="rgb(140, 140, 140)" cx="129.84799999999998" cy="520.304" r="18.528"/>
+    <text x="129.84799999999998" y="554.832">5.79</text>
+    <text x="129.84799999999998" y="570.832">Med</text>
+    <circle fill="rgb(140, 140, 140)" cx="222.79199999999997" cy="474.416" r="64.416"/>
+    <text x="222.79199999999997" y="554.832">20.13</text>
+    <text x="222.79199999999997" y="570.832">Max</text>
+    <text x="178.10399999999998" y="602.832" font-size="24px">Distance (km)</text>
     <text x="320" y="554.832">5:25</text>
     <text x="320" y="570.832">Max</text>
     <rect fill="rgb(222, 107, 0)" x="320" y="506.832" width="1.1" height="32"/>
